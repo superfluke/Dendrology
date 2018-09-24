@@ -1,15 +1,16 @@
 package com.scottkillen.mod.dendrology.world.gen.feature.cedrum;
 
-import com.google.common.base.Objects;
-import com.scottkillen.mod.dendrology.world.gen.feature.AbstractTree;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.world.World;
 import java.util.Random;
+
+import com.scottkillen.mod.dendrology.world.gen.feature.AbstractTree;
+
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class NormalCedrumTree extends AbstractTree
 {
-    @SuppressWarnings("PackageVisibleField")
     int logDirection = 0;
 
     public NormalCedrumTree(boolean fromSapling) { super(fromSapling); }
@@ -17,38 +18,34 @@ public class NormalCedrumTree extends AbstractTree
     @Override
     protected boolean canBeReplacedByLog(World world, int x, int y, int z)
     {
-        return super.canBeReplacedByLog(world, x, y, z) || world.getBlock(x, y, z).getMaterial().equals(Material.water);
+        return super.canBeReplacedByLog(world, x, y, z) || world.getBlockState(new BlockPos(x, y, z)).getMaterial().equals(Material.WATER);
     }
 
     @Override
     protected int getLogMetadata() {return super.getLogMetadata() | logDirection;}
 
     @Override
-    public String toString()
+	public boolean isReplaceable(World world, BlockPos pos)
     {
-        return Objects.toStringHelper(this).add("logDirection", logDirection).toString();
+        return super.isReplaceable(world, pos) || world.getBlockState(pos).getMaterial().equals(Material.WATER);
     }
 
     @Override
-    protected boolean isReplaceable(World world, int x, int y, int z)
+    public boolean generate(World world, Random rand, BlockPos pos)
     {
-        return super.isReplaceable(world, x, y, z) || world.getBlock(x, y, z).getMaterial().equals(Material.water);
-    }
-
-    @SuppressWarnings({ "MethodWithMultipleLoops", "OverlyComplexMethod" })
-    @Override
-    public boolean generate(World world, Random rand, int x, int y, int z)
-    {
+    	int x = pos.getX();
+    	int y = pos.getY();
+    	int z = pos.getZ();
         final int height = rand.nextInt(10) + 9;
 
         if (isPoorGrowthConditions(world, x, y, z, height, getSaplingBlock())) return false;
 
-        final Block block = world.getBlock(x, y - 1, z);
-        block.onPlantGrow(world, x, y - 1, z, x, y, z);
+        final IBlockState state = world.getBlockState(pos.down());
+        state.getBlock().onPlantGrow(state, world, pos.down(), pos);  
 
         for (int level = 0; level <= height; level++)
         {
-            placeLog(world, x, y + level, z);
+            placeLog(world, new BlockPos(x, y + level, z));
 
             if (level == height) leafTop(world, x, y + level, z);
 
@@ -64,11 +61,11 @@ public class NormalCedrumTree extends AbstractTree
                     for (int next = 1; next < 3; next++)
                     {
                         logDirection = 4;
-                        placeLog(world, x + next, y + level - 2, z);
-                        placeLog(world, x - next, y + level - 2, z);
+                        placeLog(world, new BlockPos(x + next, y + level - 2, z));
+                        placeLog(world, new BlockPos(x - next, y + level - 2, z));
                         logDirection = 8;
-                        placeLog(world, x, y + level - 2, z + next);
-                        placeLog(world, x, y + level - 2, z - next);
+                        placeLog(world, new BlockPos(x, y + level - 2, z + next));
+                        placeLog(world, new BlockPos(x, y + level - 2, z - next));
                         logDirection = 0;
                     }
                     leafGen(world, level == height - 4 ? 3 : 4, x, y + level, z);
@@ -84,17 +81,16 @@ public class NormalCedrumTree extends AbstractTree
         return true;
     }
 
-    @SuppressWarnings("MethodWithMultipleLoops")
     void leafTop(World world, int x, int y, int z)
     {
         for (int dX = -2; dX <= 2; dX++)
             for (int dZ = -2; dZ <= 2; dZ++)
             {
-                if (Math.abs(dX) + Math.abs(dZ) < 3) placeLeaves(world, x + dX, y, z + dZ);
+                if (Math.abs(dX) + Math.abs(dZ) < 3) placeLeaves(world, new BlockPos(x + dX, y, z + dZ));
 
-                if (Math.abs(dX) + Math.abs(dZ) < 2) placeLeaves(world, x + dX, y + 1, z + dZ);
+                if (Math.abs(dX) + Math.abs(dZ) < 2) placeLeaves(world, new BlockPos(x + dX, y + 1, z + dZ));
 
-                if (Math.abs(dX) == 0 && Math.abs(dZ) == 0) placeLeaves(world, x + dX, y + 2, z + dZ);
+                if (Math.abs(dX) == 0 && Math.abs(dZ) == 0) placeLeaves(world, new BlockPos(x + dX, y + 2, z + dZ));
             }
     }
 
@@ -134,17 +130,16 @@ public class NormalCedrumTree extends AbstractTree
         doLeafGen(world, x, y, z, radius, limiter1, limiter2, limiter3);
     }
 
-    @SuppressWarnings("MethodWithMultipleLoops")
     private void doLeafGen(World world, int x, int y, int z, int radius, int limiter1, int limiter2, int limiter3)
     {
         for (int dX = -radius; dX <= radius; dX++)
             for (int dZ = -radius; dZ <= radius; dZ++)
             {
-                if (Math.abs(dX) + Math.abs(dZ) < limiter1) placeLeaves(world, x + dX, y, z + dZ);
+                if (Math.abs(dX) + Math.abs(dZ) < limiter1) placeLeaves(world, new BlockPos(x + dX, y, z + dZ));
 
-                if (Math.abs(dX) + Math.abs(dZ) < limiter2) placeLeaves(world, x + dX, y - 1, z + dZ);
+                if (Math.abs(dX) + Math.abs(dZ) < limiter2) placeLeaves(world, new BlockPos(x + dX, y - 1, z + dZ));
 
-                if (Math.abs(dX) + Math.abs(dZ) < limiter3) placeLeaves(world, x + dX, y - 2, z + dZ);
+                if (Math.abs(dX) + Math.abs(dZ) < limiter3) placeLeaves(world, new BlockPos(x + dX, y - 2, z + dZ));
             }
     }
 }

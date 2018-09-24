@@ -2,7 +2,6 @@ package com.scottkillen.mod.dendrology.world.gen.feature;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
@@ -17,16 +16,15 @@ public class KiparisTree extends AbstractTree
     @Override
     protected boolean canBeReplacedByLog(World world, int x, int y, int z)
     {
-        return super.canBeReplacedByLog(world, x, y, z) || world.getBlock(x, y, z).getMaterial().equals(Material.water);
+        return super.canBeReplacedByLog(world, x, y, z) || world.getBlockState(new BlockPos(x, y, z)).getMaterial().equals(Material.WATER);
     }
 
     @Override
-    protected boolean isReplaceable(World world, BlockPos pos)
+	public boolean isReplaceable(World world, BlockPos pos)
     {
-        return super.isReplaceable(world, pos) || world.getBlock(x, y, z).getMaterial().equals(Material.water);
+        return super.isReplaceable(world, pos) || world.getBlockState(pos).getMaterial().equals(Material.WATER);
     }
 
-    @SuppressWarnings({ "OverlyComplexMethod", "OverlyLongMethod" })
     @Override
     public boolean generate(World world, Random rand, BlockPos pos)
     {
@@ -68,8 +66,8 @@ public class KiparisTree extends AbstractTree
                 }
             }
 
-            if (dY == height) placeLeaves(world, x, y + dY + 1, z);
-            if (dY == height && (size == 4 || size == 3)) placeLeaves(world, x, y + dY + 2, z);
+            if (dY == height) placeLeaves(world, new BlockPos(x, y + dY + 1, z));
+            if (dY == height && (size == 4 || size == 3)) placeLeaves(world, new BlockPos(x, y + dY + 2, z));
         }
         return true;
     }
@@ -80,17 +78,17 @@ public class KiparisTree extends AbstractTree
             for (int dZ = -3; dZ <= 3; dZ++)
             {
                 if (Math.abs(dX) <= 1 && Math.abs(dZ) <= 1 && (Math.abs(dX) != 1 || Math.abs(dZ) != 1))
-                    placeLeaves(world, x + dX, y + dY, z + dZ);
+                    placeLeaves(world, new BlockPos(x + dX, y + dY, z + dZ));
 
                 if (Math.abs(dX) <= 1 && Math.abs(dZ) <= 1 && dY <= 14 && dY >= 2)
-                    placeLeaves(world, x + dX, y + dY, z + dZ);
+                    placeLeaves(world, new BlockPos(x + dX, y + dY, z + dZ));
 
                 if (Math.abs(dX) <= 2 && Math.abs(dZ) <= 2 && (Math.abs(dX) != 2 || Math.abs(dZ) != 2) && dY == 12 ||
-                        dY == 11 || dY == 3) placeLeaves(world, x + dX, y + dY, z + dZ);
+                        dY == 11 || dY == 3) placeLeaves(world, new BlockPos(x + dX, y + dY, z + dZ));
 
                 if ((Math.abs(dX) != 3 || Math.abs(dZ) != 3) && (Math.abs(dX) != 3 || Math.abs(dZ) != 2) &&
                         (Math.abs(dX) != 2 || Math.abs(dZ) != 3) && dY <= 10 && dY >= 4)
-                    placeLeaves(world, x + dX, y + dY, z + dZ);
+                    placeLeaves(world, new BlockPos(x + dX, y + dY, z + dZ));
             }
     }
 
@@ -100,11 +98,11 @@ public class KiparisTree extends AbstractTree
             for (int dZ = -2; dZ <= 2; dZ++)
             {
                 if (Math.abs(dX) <= 1 && Math.abs(dZ) <= 1 && (Math.abs(dX) != 1 || Math.abs(dZ) != 1))
-                    placeLeaves(world, x + dX, y + dY, z + dZ);
+                    placeLeaves(world, new BlockPos(x + dX, y + dY, z + dZ));
 
                 if ((Math.abs(dX) != 2 || Math.abs(dZ) != 2) && (Math.abs(dX) != 2 || Math.abs(dZ) != 1) &&
                         (Math.abs(dX) != 1 || Math.abs(dZ) != 2) && dY <= 10 && dY >= 2)
-                    placeLeaves(world, x + dX, y + dY, z + dZ);
+                    placeLeaves(world, new BlockPos(x + dX, y + dY, z + dZ));
             }
     }
 
@@ -115,16 +113,16 @@ public class KiparisTree extends AbstractTree
             {
                 if (Math.abs(dX) <= 1 && Math.abs(dZ) <= 1 && (Math.abs(dX) != 1 || Math.abs(dZ) != 1))
                 {
-                    placeLeaves(world, x + dX, y + dY, z + dZ);
+                    placeLeaves(world, new BlockPos(x + dX, y + dY, z + dZ));
                 }
                 if (Math.abs(dX) <= 1 && Math.abs(dZ) <= 1 && dY == 7)
                 {
-                    placeLeaves(world, x + dX, y + 7, z + dZ);
+                    placeLeaves(world, new BlockPos(x + dX, y + 7, z + dZ));
                 }
                 if ((Math.abs(dX) != 2 || Math.abs(dZ) != 2) && (Math.abs(dX) != 2 || Math.abs(dZ) != 1) &&
                         (Math.abs(dX) != 1 || Math.abs(dZ) != 2) && dY <= 6 && dY >= 2)
                 {
-                    placeLeaves(world, x + dX, y + dY, z + dZ);
+                    placeLeaves(world, new BlockPos(x + dX, y + dY, z + dZ));
                 }
             }
     }
@@ -133,6 +131,6 @@ public class KiparisTree extends AbstractTree
     {
         for (int dX = -1; dX <= 1; dX++)
             for (int dZ = -1; dZ <= 1; dZ++)
-                if (Math.abs(dX) != 1 || Math.abs(dZ) != 1) placeLeaves(world, x + dX, y, z + dZ);
+                if (Math.abs(dX) != 1 || Math.abs(dZ) != 1) placeLeaves(world, new BlockPos(x + dX, y, z + dZ));
     }
 }

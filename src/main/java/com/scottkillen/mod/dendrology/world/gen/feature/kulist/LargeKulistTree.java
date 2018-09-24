@@ -1,17 +1,21 @@
 package com.scottkillen.mod.dendrology.world.gen.feature.kulist;
 
-import net.minecraft.block.Block;
-import net.minecraft.world.World;
 import java.util.Random;
+
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class LargeKulistTree extends NormalKulistTree
 {
     public LargeKulistTree(boolean fromSapling) { super(fromSapling); }
 
-    @SuppressWarnings({ "OverlyComplexMethod", "OverlyLongMethod" })
     @Override
-    public boolean generate(World world, Random rand, int x, int y, int z)
+    public boolean generate(World world, Random rand, BlockPos pos)
     {
+    	int x = pos.getX();
+    	int y = pos.getY();
+    	int z = pos.getZ();
         final Random rng = new Random();
         rng.setSeed(rand.nextLong());
 
@@ -19,12 +23,12 @@ public class LargeKulistTree extends NormalKulistTree
 
         if (isPoorGrowthConditions(world, x, y, z, height, getSaplingBlock())) return false;
 
-        final Block block = world.getBlock(x, y - 1, z);
-        block.onPlantGrow(world, x, y - 1, z, x, y, z);
+        final IBlockState state = world.getBlockState(pos.down());
+        state.getBlock().onPlantGrow(state, world, pos.down(), pos);     
 
         for (int level = 0; level <= height; level++)
         {
-            placeLog(world, x, y + level, z);
+            placeLog(world, new BlockPos(x, y + level, z));
 
             if (level == height) leafGen(world, x, y + level, z);
 

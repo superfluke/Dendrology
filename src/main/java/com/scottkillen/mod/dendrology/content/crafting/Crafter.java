@@ -9,7 +9,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 
-@SuppressWarnings("MethodMayBeStatic")
 public final class Crafter
 {
     public void writeRecipes()
@@ -53,7 +52,6 @@ public final class Crafter
         initWoodSlabRecipes();
     }
 
-    @SuppressWarnings("ObjectAllocationInLoop")
     private void initWoodStairsRecipes()
     {
         for (final DefinesStairs definition : ModBlocks.stairsDefinitions())
@@ -62,7 +60,6 @@ public final class Crafter
                             new ItemStack(definition.stairsModelBlock(), 1, definition.stairsModelSubBlockIndex()));
     }
 
-    @SuppressWarnings("ObjectAllocationInLoop")
     private void initWoodSlabRecipes()
     {
         for (final DefinesSlab definition : ModBlocks.slabDefinitions())

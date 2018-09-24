@@ -1,9 +1,10 @@
 package com.scottkillen.mod.dendrology.world.gen.feature;
 
-import com.google.common.base.Objects;
-import net.minecraft.block.Block;
-import net.minecraft.world.World;
 import java.util.Random;
+
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class LataTree extends AbstractTree
 {
@@ -13,10 +14,12 @@ public class LataTree extends AbstractTree
 
     public LataTree() { this(true); }
 
-    @SuppressWarnings({ "OverlyComplexMethod", "OverlyLongMethod" })
     @Override
-    public boolean generate(World world, Random rand, int x, int y, int z)
+    public boolean generate(World world, Random rand, BlockPos pos)
     {
+    	int x = pos.getX();
+    	int y = pos.getY();
+    	int z = pos.getZ();
         final Random rng = new Random();
         rng.setSeed(rand.nextLong());
 
@@ -24,13 +27,13 @@ public class LataTree extends AbstractTree
 
         if (isPoorGrowthConditions(world, x, y, z, height, getSaplingBlock())) return false;
 
-        final Block block = world.getBlock(x, y - 1, z);
-        block.onPlantGrow(world, x, y - 1, z, x, y, z);
+        final IBlockState state = world.getBlockState(pos.down());
+        state.getBlock().onPlantGrow(state, world, pos.down(), pos); 
 
         for (int level = 0; level <= height; level++)
         {
             if (level == height) leafGen(world, x, y + level, z);
-            else placeLog(world, x, y + level, z);
+            else placeLog(world, new BlockPos(x, y + level, z));
 
             if (level > 3 && level < height)
             {
@@ -57,7 +60,6 @@ public class LataTree extends AbstractTree
         return true;
     }
 
-    @SuppressWarnings({ "OverlyComplexMethod", "OverlyLongMethod" })
     private void branch(World world, Random rand, int x, int y, int z, int treeHeight, int branchLevel, int dX, int dZ)
     {
         final int length = treeHeight - branchLevel;
@@ -96,7 +98,7 @@ public class LataTree extends AbstractTree
                 if (dX == 0 && rand.nextInt(4) == 0) x1 += rand.nextInt(3) - 1;
             }
 
-            placeLog(world, x1, y1, z1);
+            placeLog(world, new BlockPos(x1, y1, z1));
             logDirection = 0;
 
             if (rand.nextInt(3) == 0)
@@ -111,45 +113,34 @@ public class LataTree extends AbstractTree
 
             if (i == length)
             {
-                placeLog(world, x1, y1, z1);
+                placeLog(world, new BlockPos(x1, y1, z1));
                 leafGen(world, x1, y1, z1);
             }
         }
     }
 
-    @SuppressWarnings({
-            "MethodWithMoreThanThreeNegations",
-            "MethodWithMultipleLoops",
-            "OverlyComplexBooleanExpression"
-    })
     private void leafGen(World world, int x, int y, int z)
     {
         for (int dX = -3; dX <= 3; dX++)
             for (int dZ = -3; dZ <= 3; dZ++)
             {
                 if ((Math.abs(dX) != 3 || Math.abs(dZ) != 3) && (Math.abs(dX) != 2 || Math.abs(dZ) != 3) &&
-                        (Math.abs(dX) != 3 || Math.abs(dZ) != 2)) placeLeaves(world, x + dX, y, z + dZ);
+                        (Math.abs(dX) != 3 || Math.abs(dZ) != 2)) placeLeaves(world, new BlockPos(x + dX, y, z + dZ));
 
                 if (Math.abs(dX) < 3 && Math.abs(dZ) < 3 && (Math.abs(dX) != 2 || Math.abs(dZ) != 2))
                 {
-                    placeLeaves(world, x + dX, y + 1, z + dZ);
-                    placeLeaves(world, x + dX, y - 1, z + dZ);
+                    placeLeaves(world, new BlockPos(x + dX, y + 1, z + dZ));
+                    placeLeaves(world, new BlockPos(x + dX, y - 1, z + dZ));
                 }
 
                 if (Math.abs(dX) + Math.abs(dZ) < 2)
                 {
-                    placeLeaves(world, x + dX, y + 2, z + dZ);
-                    placeLeaves(world, x + dX, y - 2, z + dZ);
+                    placeLeaves(world, new BlockPos(x + dX, y + 2, z + dZ));
+                    placeLeaves(world, new BlockPos(x + dX, y - 2, z + dZ));
                 }
             }
     }
 
     @Override
     protected int getLogMetadata() {return super.getLogMetadata() | logDirection;}
-
-    @Override
-    public String toString()
-    {
-        return Objects.toStringHelper(this).add("logDirection", logDirection).toString();
-    }
 }

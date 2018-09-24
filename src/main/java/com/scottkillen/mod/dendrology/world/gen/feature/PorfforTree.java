@@ -1,11 +1,14 @@
 package com.scottkillen.mod.dendrology.world.gen.feature;
 
+import java.util.Random;
+
 import com.google.common.base.Objects;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesTree;
 import com.scottkillen.mod.dendrology.world.gen.feature.porffor.LargePorfforTree;
 import com.scottkillen.mod.dendrology.world.gen.feature.vanilla.VanillaTree;
-import com.scottkillen.mod.koresample.tree.DefinesTree;
+
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import java.util.Random;
 
 public class PorfforTree extends AbstractTree
 {
@@ -29,16 +32,10 @@ public class PorfforTree extends AbstractTree
     }
 
     @Override
-    public boolean generate(World world, Random rand, int x, int y, int z)
+    public boolean generate(World world, Random rand, BlockPos pos)
     {
-        if (rand.nextInt(10) < 9) return treeGen.generate(world, rand, x, y, z);
+        if (rand.nextInt(10) < 9) return treeGen.generate(world, rand, pos);
 
-        return largeTreeGen.generate(world, rand, x, y, z);
-    }
-
-    @Override
-    public String toString()
-    {
-        return Objects.toStringHelper(this).add("treeGen", treeGen).add("largeTreeGen", largeTreeGen).toString();
+        return largeTreeGen.generate(world, rand, pos);
     }
 }

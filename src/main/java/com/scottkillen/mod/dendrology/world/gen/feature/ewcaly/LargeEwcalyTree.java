@@ -1,11 +1,14 @@
 package com.scottkillen.mod.dendrology.world.gen.feature.ewcaly;
 
+import java.util.Random;
+
 import com.google.common.base.Objects;
 import com.scottkillen.mod.dendrology.world.gen.feature.AbstractTree;
-import net.minecraft.block.Block;
+
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import java.util.Random;
 
 public class LargeEwcalyTree extends AbstractTree
 {
@@ -13,17 +16,12 @@ public class LargeEwcalyTree extends AbstractTree
 
     public LargeEwcalyTree(boolean fromSapling) { super(fromSapling); }
 
-    @SuppressWarnings({
-            "OverlyComplexBooleanExpression",
-            "MethodWithMoreThanThreeNegations",
-            "MethodWithMultipleLoops",
-            "OverlyComplexMethod",
-            "OverlyLongMethod",
-            "OverlyNestedMethod"
-    })
     @Override
-    public boolean generate(World world, Random rand, int x, int y, int z)
+    public boolean generate(World world, Random rand, BlockPos pos)
     {
+    	int x = pos.getX();
+    	int y = pos.getY();
+    	int z = pos.getZ();
         final Random rng = new Random();
         rng.setSeed(rand.nextLong());
 
@@ -31,11 +29,11 @@ public class LargeEwcalyTree extends AbstractTree
 
         if (isPoorGrowthConditions(world, x, y, z, height, getSaplingBlock())) return false;
 
-        final Block block = world.getBlock(x, y - 1, z);
-        block.onPlantGrow(world, x, y - 1, z, x, y, z);
+        final IBlockState state = world.getBlockState(pos.down());
+        state.getBlock().onPlantGrow(state, world, pos.down(), pos);   
 
         for (int dy = 0; dy <= height; dy++)
-            placeLog(world, x, y + dy, z);
+            placeLog(world, new BlockPos(x, y + dy, z));
 
         int size = 1;
 
@@ -52,20 +50,20 @@ public class LargeEwcalyTree extends AbstractTree
                 for (int dX = -size; dX <= size; dX++)
                     for (int dZ = -size; dZ <= size; dZ++)
                     {
-                        placeLeaves(world, x + dX, y1, z + dZ);
-                        if (size != Math.abs(dX) || size != Math.abs(dZ)) placeLeaves(world, x + dX, y1, z + dZ);
+                        placeLeaves(world, new BlockPos(x + dX, y1, z + dZ));
+                        if (size != Math.abs(dX) || size != Math.abs(dZ)) placeLeaves(world, new BlockPos(x + dX, y1, z + dZ));
 
                         if (size == 3 &&
                                 (Math.abs(dX) == 3 && Math.abs(dZ) == 2 || Math.abs(dX) == 2 && Math.abs(dZ) == 3))
-                            setBlockAndNotifyAdequately(world, x + dX, y1, z + dZ, Blocks.air, 0);
+                            setBlockAndNotifyAdequately(world, new BlockPos(x + dX, y1, z + dZ), Blocks.AIR.getDefaultState());
 
                         if (y1 == y + height && Math.abs(dX) < 3 && Math.abs(dZ) < 3 &&
                                 (Math.abs(dX) != 2 || Math.abs(dZ) != 2))
                         {
-                            if (size > 1) placeLeaves(world, x + dX, y1 + 1, z + dZ);
+                            if (size > 1) placeLeaves(world, new BlockPos(x + dX, y1 + 1, z + dZ));
 
                             if (size == 1 && (Math.abs(dX) != 1 || Math.abs(dZ) != 1))
-                                placeLeaves(world, x + dX, y1 + 1, z + dZ);
+                                placeLeaves(world, new BlockPos(x + dX, y1 + 1, z + dZ));
                         }
                     }
             }
@@ -124,7 +122,7 @@ public class LargeEwcalyTree extends AbstractTree
                 logDirection = 8;
             }
 
-            placeLog(world, x1, y1, z1);
+            placeLog(world, new BlockPos(x1, y1, z1));
             logDirection = 0;
 
             if ((i == 4 || i == 7) && height >= 13) genLeaves(world, x1, y1, z1);
@@ -135,9 +133,6 @@ public class LargeEwcalyTree extends AbstractTree
         }
     }
 
-    @SuppressWarnings({
-            "OverlyComplexBooleanExpression", "MethodWithMoreThanThreeNegations", "MethodWithMultipleLoops"
-    })
     void genLeaves(World world, int x, int y, int z)
     {
         for (int dX = -3; dX <= 3; dX++)
@@ -145,32 +140,29 @@ public class LargeEwcalyTree extends AbstractTree
             for (int dY = -3; dY <= 3; dY++)
             {
                 if ((Math.abs(dX) != 3 || Math.abs(dY) != 3) && (Math.abs(dX) != 2 || Math.abs(dY) != 3) &&
-                        (Math.abs(dX) != 3 || Math.abs(dY) != 2)) placeLeaves(world, x + dX, y, z + dY);
+                        (Math.abs(dX) != 3 || Math.abs(dY) != 2)) placeLeaves(world, new BlockPos(x + dX, y, z + dY));
 
                 if (Math.abs(dX) < 3 && Math.abs(dY) < 3 && (Math.abs(dX) != 2 || Math.abs(dY) != 2))
                 {
-                    placeLeaves(world, x + dX, y - 1, z + dY);
-                    placeLeaves(world, x + dX, y + 1, z + dY);
+                    placeLeaves(world, new BlockPos(x + dX, y - 1, z + dY));
+                    placeLeaves(world, new BlockPos(x + dX, y + 1, z + dY));
                 }
             }
         }
     }
 
-    @SuppressWarnings({
-            "OverlyComplexBooleanExpression", "MethodWithMoreThanThreeNegations", "MethodWithMultipleLoops"
-    })
     void genLeavesS(World world, int i3, int j3, int k3)
     {
         for (int x = -2; x <= 2; x++)
         {
             for (int y = -2; y <= 2; y++)
             {
-                if (Math.abs(x) != 2 || Math.abs(y) != 2) placeLeaves(world, i3 + x, j3, k3 + y);
+                if (Math.abs(x) != 2 || Math.abs(y) != 2) placeLeaves(world, new BlockPos(i3 + x, j3, k3 + y));
 
                 if (Math.abs(x) < 2 && Math.abs(y) < 2 && (Math.abs(x) != 1 || Math.abs(y) != 1))
                 {
-                    placeLeaves(world, i3 + x, j3 + 1, k3 + y);
-                    placeLeaves(world, i3 + x, j3 - 1, k3 + y);
+                    placeLeaves(world, new BlockPos(i3 + x, j3 + 1, k3 + y));
+                    placeLeaves(world, new BlockPos(i3 + x, j3 - 1, k3 + y));
                 }
             }
         }
@@ -178,10 +170,4 @@ public class LargeEwcalyTree extends AbstractTree
 
     @Override
     protected int getLogMetadata() { return super.getLogMetadata() | logDirection; }
-
-    @Override
-    public String toString()
-    {
-        return Objects.toStringHelper(this).add("logDirection", logDirection).toString();
-    }
 }

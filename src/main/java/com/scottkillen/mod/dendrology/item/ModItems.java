@@ -14,7 +14,6 @@ public final class ModItems
 {
     public static final Item parcel = new SaplingParcel();
 
-    @SuppressWarnings("MethodMayBeStatic")
     public void loadContent()
     {
         GameRegistry.registerItem(parcel, "parcel");

@@ -1,9 +1,12 @@
 package com.scottkillen.mod.dendrology.world.gen.feature;
 
-import com.google.common.base.Objects;
-import net.minecraft.block.Block;
-import net.minecraft.world.World;
 import java.util.Random;
+
+import com.google.common.base.Objects;
+
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class NucisTree extends AbstractTree
 {
@@ -13,10 +16,12 @@ public class NucisTree extends AbstractTree
 
     public NucisTree() { this(true); }
 
-    @SuppressWarnings({ "OverlyComplexMethod", "OverlyLongMethod" })
     @Override
-    public boolean generate(World world, Random rand, int x, int y, int z)
+    public boolean generate(World world, Random rand, BlockPos pos)
     {
+    	int x = pos.getX();
+    	int y = pos.getY();
+    	int z = pos.getZ();
         final Random rng = new Random();
         rng.setSeed(rand.nextLong());
 
@@ -24,12 +29,12 @@ public class NucisTree extends AbstractTree
 
         if (isPoorGrowthConditions(world, x, y, z, height, getSaplingBlock())) return false;
 
-        final Block block = world.getBlock(x, y - 1, z);
-        block.onPlantGrow(world, x, y - 1, z, x, y, z);
+        final IBlockState state = world.getBlockState(pos.down());
+        state.getBlock().onPlantGrow(state, world, pos.down(), pos);   
 
         for (int level = 0; level < height; level++)
         {
-            placeLog(world, x, y + level, z);
+            placeLog(world, new BlockPos(x, y + level, z));
 
             if (level > 3)
             {
@@ -58,7 +63,6 @@ public class NucisTree extends AbstractTree
         return true;
     }
 
-    @SuppressWarnings({ "OverlyComplexMethod", "OverlyLongMethod" })
     private void branch(World world, Random random, int x, int y, int z, int height, int level, int dX, int dZ)
     {
         int level1 = level + y;
@@ -99,13 +103,13 @@ public class NucisTree extends AbstractTree
                 if (dX == 0 && random.nextInt(4) == 0) x1 = x1 + random.nextInt(3) - 1;
             }
 
-            placeLog(world, x1, level1, z1);
+            placeLog(world, new BlockPos(x1, level1, z1));
 
             if (random.nextInt(3) > 0) level1++;
 
             if (index == lengthToGo || random.nextInt(6) == 0)
             {
-                placeLog(world, x1, level1, z1);
+                placeLog(world, new BlockPos(x1, level1, z1));
                 leafGen(world, x1, level1, z1);
             }
 
@@ -115,11 +119,6 @@ public class NucisTree extends AbstractTree
         }
     }
 
-    @SuppressWarnings({
-            "MethodWithMoreThanThreeNegations",
-            "MethodWithMultipleLoops",
-            "OverlyComplexBooleanExpression"
-    })
     private void leafGen(World world, int x, int y, int z)
     {
         for (int dX = -3; dX <= 3; dX++)
@@ -127,18 +126,18 @@ public class NucisTree extends AbstractTree
             for (int dZ = -3; dZ <= 3; dZ++)
             {
                 if ((Math.abs(dX) != 3 || Math.abs(dZ) != 3) && (Math.abs(dX) != 2 || Math.abs(dZ) != 3) &&
-                        (Math.abs(dX) != 3 || Math.abs(dZ) != 2)) placeLeaves(world, x + dX, y, z + dZ);
+                        (Math.abs(dX) != 3 || Math.abs(dZ) != 2)) placeLeaves(world, new BlockPos(x + dX, y, z + dZ));
 
                 if (Math.abs(dX) < 3 && Math.abs(dZ) < 3 && (Math.abs(dX) != 2 || Math.abs(dZ) != 2))
                 {
-                    placeLeaves(world, x + dX, y + 1, z + dZ);
-                    placeLeaves(world, x + dX, y - 1, z + dZ);
+                    placeLeaves(world, new BlockPos(x + dX, y + 1, z + dZ));
+                    placeLeaves(world, new BlockPos(x + dX, y - 1, z + dZ));
                 }
 
                 if (Math.abs(dX) + Math.abs(dZ) < 2)
                 {
-                    placeLeaves(world, x + dX, y + 2, z + dZ);
-                    placeLeaves(world, x + dX, y - 2, z + dZ);
+                    placeLeaves(world, new BlockPos(x + dX, y + 2, z + dZ));
+                    placeLeaves(world, new BlockPos(x + dX, y - 2, z + dZ));
                 }
             }
         }
@@ -148,11 +147,5 @@ public class NucisTree extends AbstractTree
     protected int getLogMetadata()
     {
         return super.getLogMetadata() | logDirection;
-    }
-
-    @Override
-    public String toString()
-    {
-        return Objects.toStringHelper(this).add("logDirection", logDirection).toString();
     }
 }
