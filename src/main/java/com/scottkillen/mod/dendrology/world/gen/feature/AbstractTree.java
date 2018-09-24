@@ -1,19 +1,23 @@
 package com.scottkillen.mod.dendrology.world.gen.feature;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.ImmutableList;
-import com.scottkillen.mod.koresample.tree.DefinesTree;
-import com.scottkillen.mod.koresample.tree.block.LeavesBlock;
-import com.scottkillen.mod.koresample.tree.block.LogBlock;
-import com.scottkillen.mod.koresample.tree.block.SaplingBlock;
+import static com.google.common.base.Preconditions.checkArgument;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraftforge.common.IPlantable;
+
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import static com.google.common.base.Preconditions.*;
-import static net.minecraftforge.common.util.ForgeDirection.UP;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesTree;
+import com.scottkillen.mod.dendrology.kore.tree.block.LeavesBlock;
+import com.scottkillen.mod.dendrology.kore.tree.block.LogBlock;
+import com.scottkillen.mod.dendrology.kore.tree.block.SaplingBlock;
 
 public abstract class AbstractTree extends WorldGenAbstractTree
 {
@@ -24,12 +28,11 @@ public abstract class AbstractTree extends WorldGenAbstractTree
 
     protected AbstractTree(boolean fromSapling) { super(fromSapling); }
 
-    @SuppressWarnings("WeakerAccess")
     protected boolean canBeReplacedByLog(World world, int x, int y, int z)
     {
-        final Block block = world.getBlock(x, y, z);
+        final IBlockState state = world.getBlockState(new BlockPos(x, y, z));
 
-        return block.isAir(world, x, y, z) || block.isLeaves(world, x, y, z);
+        return state.getBlock().isAir(state, world, new BlockPos(x, y, z)) || state.getBlock().isLeaves(state, world, new BlockPos(x, y, z));
     }
 
     public void setTree(DefinesTree tree)
@@ -39,19 +42,18 @@ public abstract class AbstractTree extends WorldGenAbstractTree
 
     protected boolean isPoorGrowthConditions(World world, int x, int y, int z, int height, IPlantable plantable)
     {
-        checkArgument(height > 0);
+    	Preconditions.checkArgument(height > 0);
         if (y < 1 || y + height + 1 > world.getHeight()) return true;
         if (!hasRoomToGrow(world, x, y, z, height)) return true;
 
-        final Block block = world.getBlock(x, y - 1, z);
-        return !block.canSustainPlant(world, x, y - 1, z, UP, plantable);
+        final IBlockState soil = world.getBlockState(new BlockPos(x, y - 1, z));
+        return !soil.getBlock().canSustainPlant(soil, world, new BlockPos(x, y - 1, z), EnumFacing.UP, plantable);
     }
 
-    @SuppressWarnings("WeakerAccess")
     protected boolean hasRoomToGrow(World world, int x, int y, int z, int height)
     {
         for (int y1 = y; y1 <= y + 1 + height; ++y1)
-            if (!isReplaceable(world, x, y1, z)) return false;
+            if (!isReplaceable(world, new BlockPos(x, y1, z))) return false;
 
         return true;
     }
@@ -66,21 +68,17 @@ public abstract class AbstractTree extends WorldGenAbstractTree
 
     protected SaplingBlock getSaplingBlock() { return tree.saplingBlock(); }
 
-    protected void placeLeaves(World world, int x, int y, int z)
+    protected void placeLeaves(World world, BlockPos blockpos)
     {
-        if (world.getBlock(x, y, z).canBeReplacedByLeaves(world, x, y, z))
-            setBlockAndNotifyAdequately(world, x, y, z, getLeavesBlock(), getLeavesMetadata());
+    	IBlockState state = world.getBlockState(blockpos);
+    	if (canGrowInto(state.getBlock()))
+            setBlockAndNotifyAdequately(world, blockpos, getLeavesBlock().getDefaultState());
     }
 
-    protected void placeLog(World world, int x, int y, int z)
+    protected void placeLog(World world, BlockPos blockpos)
     {
-        if (canBeReplacedByLog(world, x, y, z))
-            setBlockAndNotifyAdequately(world, x, y, z, getLogBlock(), getLogMetadata());
-    }
-
-    @Override
-    public String toString()
-    {
-        return Objects.toStringHelper(this).add("tree", tree).toString();
+    	IBlockState state = world.getBlockState(blockpos);
+    	if (canGrowInto(state.getBlock()))
+    		setBlockAndNotifyAdequately(world, blockpos, getLogBlock().getDefaultState());
     }
 }

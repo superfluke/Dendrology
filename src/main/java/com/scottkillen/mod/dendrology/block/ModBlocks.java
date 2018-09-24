@@ -1,5 +1,15 @@
 package com.scottkillen.mod.dendrology.block;
 
+import java.util.List;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockLog;
+import net.minecraft.block.BlockSapling;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.scottkillen.mod.dendrology.TheMod;
@@ -10,28 +20,18 @@ import com.scottkillen.mod.dendrology.item.ModLogItem;
 import com.scottkillen.mod.dendrology.item.ModSaplingItem;
 import com.scottkillen.mod.dendrology.item.ModSlabItem;
 import com.scottkillen.mod.dendrology.item.ModWoodItem;
-import com.scottkillen.mod.koresample.common.block.SlabBlock;
-import com.scottkillen.mod.koresample.common.block.StairsBlock;
-import com.scottkillen.mod.koresample.tree.DefinesLog;
-import com.scottkillen.mod.koresample.tree.DefinesSapling;
-import com.scottkillen.mod.koresample.tree.DefinesSlab;
-import com.scottkillen.mod.koresample.tree.DefinesStairs;
-import com.scottkillen.mod.koresample.tree.block.LeavesBlock;
-import com.scottkillen.mod.koresample.tree.block.LogBlock;
-import com.scottkillen.mod.koresample.tree.block.SaplingBlock;
-import com.scottkillen.mod.koresample.tree.block.WoodBlock;
-import com.scottkillen.mod.koresample.tree.item.LeavesItem;
-import com.scottkillen.mod.koresample.tree.loader.TreeSpeciesLoader;
-import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.BlockLog;
-import net.minecraft.block.BlockSapling;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.WeightedRandomChestContent;
-import net.minecraftforge.common.ChestGenHooks;
-import java.util.List;
+import com.scottkillen.mod.dendrology.kore.common.block.SlabBlock;
+import com.scottkillen.mod.dendrology.kore.common.block.StairsBlock;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesLog;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesSapling;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesSlab;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesStairs;
+import com.scottkillen.mod.dendrology.kore.tree.block.LeavesBlock;
+import com.scottkillen.mod.dendrology.kore.tree.block.LogBlock;
+import com.scottkillen.mod.dendrology.kore.tree.block.SaplingBlock;
+import com.scottkillen.mod.dendrology.kore.tree.block.WoodBlock;
+import com.scottkillen.mod.dendrology.kore.tree.item.LeavesItem;
+import com.scottkillen.mod.dendrology.kore.tree.loader.TreeSpeciesLoader;
 
 public final class ModBlocks
 {
@@ -52,10 +52,9 @@ public final class ModBlocks
     private static final List<LeavesBlock> leavesBlocks = Lists.newArrayList();
     private static final OverworldTreeTaxonomy overworldTaxonomy = new OverworldTreeTaxonomy();
 
-    @SuppressWarnings("MethodWithMultipleLoops")
     private static void addAllSaplingsToChests()
     {
-        TheMod.logger().info("Hiding saplings in chests.");
+        TheMod.logger.info("Hiding saplings in chests.");
         final Settings settings = Settings.INSTANCE;
 
         for (final DefinesSapling saplingDefinition : overworldTaxonomy.saplingDefinitions())
@@ -239,7 +238,6 @@ public final class ModBlocks
 
     public static Iterable<? extends Block> woodBlocks() { return ImmutableList.copyOf(woodBlocks); }
 
-    @SuppressWarnings("MethodMayBeStatic")
     public void loadContent()
     {
         loadOverWorldContent();

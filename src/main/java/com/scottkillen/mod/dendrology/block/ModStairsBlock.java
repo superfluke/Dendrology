@@ -1,8 +1,9 @@
 package com.scottkillen.mod.dendrology.block;
 
 import com.scottkillen.mod.dendrology.TheMod;
-import com.scottkillen.mod.koresample.common.block.StairsBlock;
-import com.scottkillen.mod.koresample.tree.DefinesStairs;
+import com.scottkillen.mod.dendrology.kore.common.block.StairsBlock;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesStairs;
+
 
 public final class ModStairsBlock extends StairsBlock
 {

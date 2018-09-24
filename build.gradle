@@ -1,130 +1,77 @@
-evaluationDependsOn(':version')
-
 buildscript {
     repositories {
-        mavenCentral()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
+apply plugin: 'net.minecraftforge.gradle.forge'
+//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-apply plugin: 'forge'
-apply plugin: 'maven'
 
-group = "com.scottkillen.mod"
-archivesBaseName = "AncientTrees"
+version = "1.0"
+group = "com.yourname.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "modid"
 
-minecraft {
-    version = project.version_forge + "-" + project.version_mc
-    runDir = "run"
-
-    replace '${mod_version}', project.version
+sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
 }
 
-repositories {
-    mavenLocal()
-    maven { url = 'http://maven.scottkillen.com/' }
-    // maven { url = 'http://coloredlightscore.us.to/maven/chisel-2-dev/' }
-    maven { url = 'http://maven.ic2.player.to/' }
+minecraft {
+    version = "1.12.2-14.23.4.2705"
+    runDir = "run"
+    
+    // the mappings can be changed at any time, and must be in the following format.
+    // snapshot_YYYYMMDD   snapshot are built nightly.
+    // stable_#            stables are built at the discretion of the MCP team.
+    // Use non-default mappings at your own risk. they may not always work.
+    // simply re-run your setup task after changing the mappings to update your workspace.
+    mappings = "snapshot_20171003"
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
 dependencies {
-    // compile "com.cricketcraft.chisel:Chisel2:${project.ext.version_chisel}:api"
-    compile "com.scottkillen.mod:KoreSample:${project.ext.version_kore}:deobf"
-    compile files('libs/Chisel2-2.4.0.38-api.jar')
-    compile "net.sengir.forestry:forestry_${project.version_mc}:${project.ext.version_forestry}:dev"
+    // you may put jars on which you depend on in ./libs
+    // or you may define them like so..
+    //compile "some.group:artifact:version:classifier"
+    //compile "some.group:artifact:version"
+      
+    // real examples
+    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
+    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
+
+    // the 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
+    //provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+
+    // the deobf configurations:  'deobfCompile' and 'deobfProvided' are the same as the normal compile and provided,
+    // except that these dependencies get remapped to your current MCP mappings
+    //deobfCompile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+    //deobfProvided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+
+    // for more info...
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+
 }
 
-processResources
-{
+processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
-    inputs.property "version_mc", project.minecraft.version
-    inputs.property "version_forge", project.ext.version_forge
-    inputs.property "version_kore", project.ext.version_kore
-    inputs.property "version_chisel", project.ext.version_chisel
-    inputs.property "version_forestry", project.ext.version_forestry
+    inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in the files we want.
+    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
-        include '**/*.info'
-        include '**/version.properties'
-
-        expand 'mod_version': project.version, 'minecraft_version': project.minecraft.version,
-                'forge_version': project.ext.version_forge, 'kore_version': project.ext.version_kore,
-                'chisel_version': project.ext.version_chisel, 'sd_version': project.ext.version_storagedrawers
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-
-    // copy everything else, that we didn't do before
+        
+    // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
-        exclude '**/*.info'
-        exclude '**/version.properties'
-    }
-}
-
-jar {
-    includeEmptyDirs = false
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    from(sourceSets.main.output) {
-        include '**/*.info'
-        include '**/version.properties'
-
-        expand 'mod_version': project.version, 'minecraft_version': project.minecraft.version,
-                'forge_version': project.ext.version_forge, 'kore_version': project.ext.version_kore,
-                'chisel_version': project.ext.version_chisel, 'sd_version': project.ext.version_storagedrawers
-    }
-
-    from(sourceSets.main.allSource) {
-        include '**/TheMod.java'
-
-        expand 'mod_version': project.version
-    }
-
-    from(sourceSets.main.allSource) {
-        exclude '**/*.info'
-        exclude '**/version.properties'
-        exclude '**/TheMod.java'
-    }
-
-    classifier = 'sources'
-}
-
-task deobfJar(type: Jar) {
-    from(sourceSets.main.output) {
-        include '**/*.info'
-        include '**/version.properties'
-
-        expand 'mod_version': project.version, 'minecraft_version': project.minecraft.version,
-                'forge_version': project.ext.version_forge, 'kore_version': project.ext.version_kore,
-                'chisel_version': project.ext.version_chisel, 'sd_version': project.ext.version_storagedrawers
-    }
-
-    from(sourceSets.main.output) {
-        exclude '**/*.info'
-        exclude '**/version.properties'
-    }
-
-    classifier = 'deobf'
-}
-
-artifacts {
-    archives sourcesJar
-    archives deobfJar
-}
-
-uploadArchives {
-    repositories.mavenDeployer {
-        repository (url:"file://" + projectDir + "/build/maven")
+        exclude 'mcmod.info'
     }
 }

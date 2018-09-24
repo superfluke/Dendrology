@@ -2,6 +2,7 @@ package com.scottkillen.mod.dendrology.config.client;
 
 import com.google.common.collect.Lists;
 import com.scottkillen.mod.dendrology.TheMod;
+
 import cpw.mods.fml.client.config.GuiConfig;
 import cpw.mods.fml.client.config.IConfigElement;
 import net.minecraft.client.gui.GuiScreen;

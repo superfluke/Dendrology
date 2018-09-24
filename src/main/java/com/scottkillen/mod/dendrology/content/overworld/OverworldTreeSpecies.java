@@ -1,7 +1,34 @@
 package com.scottkillen.mod.dendrology.content.overworld;
 
 
+import static com.google.common.base.Preconditions.checkState;
+import static com.scottkillen.mod.dendrology.content.overworld.OverworldTreeSpecies.Colorizer.ACEMUS_COLOR;
+import static com.scottkillen.mod.dendrology.content.overworld.OverworldTreeSpecies.Colorizer.BASIC_COLOR;
+import static com.scottkillen.mod.dendrology.content.overworld.OverworldTreeSpecies.Colorizer.CERASU_COLOR;
+import static com.scottkillen.mod.dendrology.content.overworld.OverworldTreeSpecies.Colorizer.KULIST_COLOR;
+import static com.scottkillen.mod.dendrology.content.overworld.OverworldTreeSpecies.Colorizer.NO_COLOR;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.potion.PotionHelper;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import com.scottkillen.mod.dendrology.content.ProvidesPotionEffect;
+import com.scottkillen.mod.dendrology.kore.common.block.SlabBlock;
+import com.scottkillen.mod.dendrology.kore.common.block.StairsBlock;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesLeaves;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesLog;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesSapling;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesSlab;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesStairs;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesTree;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesWood;
+import com.scottkillen.mod.dendrology.kore.tree.block.LeavesBlock;
+import com.scottkillen.mod.dendrology.kore.tree.block.LogBlock;
+import com.scottkillen.mod.dendrology.kore.tree.block.SaplingBlock;
+import com.scottkillen.mod.dendrology.kore.tree.block.WoodBlock;
 import com.scottkillen.mod.dendrology.world.AcemusColorizer;
 import com.scottkillen.mod.dendrology.world.CerasuColorizer;
 import com.scottkillen.mod.dendrology.world.KulistColorizer;
@@ -19,33 +46,6 @@ import com.scottkillen.mod.dendrology.world.gen.feature.NucisTree;
 import com.scottkillen.mod.dendrology.world.gen.feature.PorfforTree;
 import com.scottkillen.mod.dendrology.world.gen.feature.SalyxTree;
 import com.scottkillen.mod.dendrology.world.gen.feature.TuopaTree;
-import com.scottkillen.mod.koresample.common.block.SlabBlock;
-import com.scottkillen.mod.koresample.common.block.StairsBlock;
-import com.scottkillen.mod.koresample.tree.DefinesLeaves;
-import com.scottkillen.mod.koresample.tree.DefinesLog;
-import com.scottkillen.mod.koresample.tree.DefinesSapling;
-import com.scottkillen.mod.koresample.tree.DefinesSlab;
-import com.scottkillen.mod.koresample.tree.DefinesStairs;
-import com.scottkillen.mod.koresample.tree.DefinesTree;
-import com.scottkillen.mod.koresample.tree.DefinesWood;
-import com.scottkillen.mod.koresample.tree.block.LeavesBlock;
-import com.scottkillen.mod.koresample.tree.block.LogBlock;
-import com.scottkillen.mod.koresample.tree.block.SaplingBlock;
-import com.scottkillen.mod.koresample.tree.block.WoodBlock;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.potion.PotionHelper;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.gen.feature.WorldGenerator;
-
-import static com.google.common.base.Preconditions.*;
-import static com.scottkillen.mod.dendrology.content.overworld.OverworldTreeSpecies.Colorizer.ACEMUS_COLOR;
-import static com.scottkillen.mod.dendrology.content.overworld.OverworldTreeSpecies.Colorizer.BASIC_COLOR;
-import static com.scottkillen.mod.dendrology.content.overworld.OverworldTreeSpecies.Colorizer.CERASU_COLOR;
-import static com.scottkillen.mod.dendrology.content.overworld.OverworldTreeSpecies.Colorizer.KULIST_COLOR;
-import static com.scottkillen.mod.dendrology.content.overworld.OverworldTreeSpecies.Colorizer.NO_COLOR;
 
 @SuppressWarnings({ "NonSerializableFieldInSerializableClass", "ClassHasNoToStringMethod" })
 public enum OverworldTreeSpecies
@@ -127,7 +127,7 @@ public enum OverworldTreeSpecies
             case KULIST_COLOR:
                 return KulistColorizer.getInventoryColor();
             default:
-                return Blocks.leaves.getRenderColor(0);
+                return Blocks.LEAVES.getRenderColor(0);
         }
     }
 
@@ -146,7 +146,7 @@ public enum OverworldTreeSpecies
             case KULIST_COLOR:
                 return KulistColorizer.getColor(x, y, z);
             default:
-                return Blocks.leaves.colorMultiplier(blockAccess, x, y, z);
+                return Blocks.LEAVES.colorMultiplier(blockAccess, x, y, z);
         }
     }
 

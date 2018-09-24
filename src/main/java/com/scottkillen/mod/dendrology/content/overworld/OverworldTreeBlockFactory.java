@@ -7,20 +7,20 @@ import com.scottkillen.mod.dendrology.block.ModSaplingBlock;
 import com.scottkillen.mod.dendrology.block.ModSlabBlock;
 import com.scottkillen.mod.dendrology.block.ModStairsBlock;
 import com.scottkillen.mod.dendrology.block.ModWoodBlock;
-import com.scottkillen.mod.koresample.common.block.SlabBlock;
-import com.scottkillen.mod.koresample.common.block.StairsBlock;
-import com.scottkillen.mod.koresample.common.util.slab.SingleDoubleSlab;
-import com.scottkillen.mod.koresample.tree.DefinesLeaves;
-import com.scottkillen.mod.koresample.tree.DefinesLog;
-import com.scottkillen.mod.koresample.tree.DefinesSapling;
-import com.scottkillen.mod.koresample.tree.DefinesSlab;
-import com.scottkillen.mod.koresample.tree.DefinesStairs;
-import com.scottkillen.mod.koresample.tree.DefinesWood;
-import com.scottkillen.mod.koresample.tree.TreeBlockFactory;
-import com.scottkillen.mod.koresample.tree.block.LeavesBlock;
-import com.scottkillen.mod.koresample.tree.block.LogBlock;
-import com.scottkillen.mod.koresample.tree.block.SaplingBlock;
-import com.scottkillen.mod.koresample.tree.block.WoodBlock;
+import com.scottkillen.mod.dendrology.kore.common.block.SlabBlock;
+import com.scottkillen.mod.dendrology.kore.common.block.StairsBlock;
+import com.scottkillen.mod.dendrology.kore.common.util.slab.SingleDoubleSlab;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesLeaves;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesLog;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesSapling;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesSlab;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesStairs;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesWood;
+import com.scottkillen.mod.dendrology.kore.tree.TreeBlockFactory;
+import com.scottkillen.mod.dendrology.kore.tree.block.LeavesBlock;
+import com.scottkillen.mod.dendrology.kore.tree.block.LogBlock;
+import com.scottkillen.mod.dendrology.kore.tree.block.SaplingBlock;
+import com.scottkillen.mod.dendrology.kore.tree.block.WoodBlock;
 
 public final class OverworldTreeBlockFactory implements TreeBlockFactory
 {
@@ -78,7 +78,7 @@ public final class OverworldTreeBlockFactory implements TreeBlockFactory
     public StairsBlock createStairsBlock(DefinesStairs definition)
     {
         final StairsBlock block = new ModStairsBlock(definition);
-        block.setBlockName(String.format("stairs.%s", definition.stairsName()));
+        block.setUnlocalizedName(String.format("stairs.%s", definition.stairsName()));
 
         definition.assignStairsBlock(block);
 

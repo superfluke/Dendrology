@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.scottkillen.mod.dendrology.TheMod;
 import com.scottkillen.mod.koresample.config.ConfigSyncable;
+
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.config.Configuration;
 import java.util.Map;

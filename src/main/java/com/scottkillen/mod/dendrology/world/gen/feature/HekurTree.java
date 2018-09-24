@@ -1,12 +1,15 @@
 package com.scottkillen.mod.dendrology.world.gen.feature;
 
+import java.util.Random;
+
+import net.minecraft.block.material.Material;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
 import com.google.common.base.Objects;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesTree;
 import com.scottkillen.mod.dendrology.world.gen.feature.hekur.LargeHekurTree;
 import com.scottkillen.mod.dendrology.world.gen.feature.hekur.NormalHekurTree;
-import com.scottkillen.mod.koresample.tree.DefinesTree;
-import net.minecraft.block.material.Material;
-import net.minecraft.world.World;
-import java.util.Random;
 
 public class HekurTree extends AbstractTree
 {
@@ -28,21 +31,18 @@ public class HekurTree extends AbstractTree
         treeGen.setTree(tree);
         largeTreeGen.setTree(tree);
     }
-
+    
     @Override
-    public String toString()
+    public boolean generate(World world, Random rand, BlockPos pos)
     {
-        return Objects.toStringHelper(this).add("treeGen", treeGen).add("largeTreeGen", largeTreeGen).toString();
-    }
-
-    @Override
-    public boolean generate(World world, Random rand, int x, int y, int z)
-    {
+    	int x = pos.getX();
+    	int y = pos.getY();
+    	int z = pos.getZ();
         int y1 = y;
-        while (world.getBlock(x, y1 - 1, z).getMaterial().equals(Material.water)) y1--;
+        while (world.getBlockState(new BlockPos(x, y1 - 1, z)).getMaterial().equals(Material.WATER)) y1--;
 
-        if (rand.nextInt(10) < 9) return treeGen.generate(world, rand, x, y1, z);
+        if (rand.nextInt(10) < 9) return treeGen.generate(world, rand, new BlockPos(x, y1, z));
 
-        return largeTreeGen.generate(world, rand, x, y1, z);
+        return largeTreeGen.generate(world, rand, new BlockPos(x, y1, z));
     }
 }

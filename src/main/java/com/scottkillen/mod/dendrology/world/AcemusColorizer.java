@@ -1,6 +1,5 @@
 package com.scottkillen.mod.dendrology.world;
 
-import com.scottkillen.mod.dendrology.TheMod;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -11,6 +10,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldInfo;
 import java.io.IOException;
+
+import com.scottkillen.mod.dendrology.TheMod;
 
 @SideOnly(Side.CLIENT)
 public enum AcemusColorizer implements IResourceManagerReloadListener

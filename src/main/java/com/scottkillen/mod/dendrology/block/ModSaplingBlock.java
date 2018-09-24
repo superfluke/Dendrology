@@ -1,12 +1,14 @@
 package com.scottkillen.mod.dendrology.block;
 
+import java.util.List;
+
+import net.minecraft.item.ItemStack;
+
 import com.google.common.collect.ImmutableList;
 import com.scottkillen.mod.dendrology.TheMod;
 import com.scottkillen.mod.dendrology.content.ProvidesPotionEffect;
-import com.scottkillen.mod.koresample.tree.DefinesSapling;
-import com.scottkillen.mod.koresample.tree.block.SaplingBlock;
-import net.minecraft.item.ItemStack;
-import java.util.List;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesSapling;
+import com.scottkillen.mod.dendrology.kore.tree.block.SaplingBlock;
 
 public final class ModSaplingBlock extends SaplingBlock
 {
@@ -21,7 +23,6 @@ public final class ModSaplingBlock extends SaplingBlock
     @Override
     protected String resourcePrefix() { return TheMod.getResourcePrefix(); }
 
-    @SuppressWarnings("ReturnOfNull")
     public String getPotionEffect(ItemStack itemStack)
     {
         final List<DefinesSapling> subBlocks = subBlocks();

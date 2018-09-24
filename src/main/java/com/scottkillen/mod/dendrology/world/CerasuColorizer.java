@@ -1,6 +1,5 @@
 package com.scottkillen.mod.dendrology.world;
 
-import com.scottkillen.mod.dendrology.TheMod;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.TextureUtil;
@@ -8,6 +7,8 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.util.ResourceLocation;
 import java.io.IOException;
+
+import com.scottkillen.mod.dendrology.TheMod;
 
 @SideOnly(Side.CLIENT)
 public enum CerasuColorizer implements IResourceManagerReloadListener

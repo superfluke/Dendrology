@@ -1,9 +1,9 @@
 package com.scottkillen.mod.dendrology.proxy;
 
-import com.scottkillen.mod.dendrology.proxy.render.RenderProxy;
-import cpw.mods.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.SidedProxy;
 
-@SuppressWarnings({ "StaticNonFinalField", "PublicField" })
+import com.scottkillen.mod.dendrology.proxy.render.RenderProxy;
+
 public enum Proxy
 {
     ;
