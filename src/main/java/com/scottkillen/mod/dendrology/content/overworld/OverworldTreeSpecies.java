@@ -47,7 +47,6 @@ import com.scottkillen.mod.dendrology.world.gen.feature.PorfforTree;
 import com.scottkillen.mod.dendrology.world.gen.feature.SalyxTree;
 import com.scottkillen.mod.dendrology.world.gen.feature.TuopaTree;
 
-@SuppressWarnings({ "NonSerializableFieldInSerializableClass" })
 public enum OverworldTreeSpecies
         implements DefinesLeaves, DefinesLog, DefinesSapling, DefinesSlab, DefinesStairs, DefinesTree, DefinesWood,
         ProvidesPotionEffect
@@ -57,9 +56,9 @@ public enum OverworldTreeSpecies
     CEDRUM(NO_COLOR, new CedrumTree(), new CedrumTree(false)),
     CERASU(CERASU_COLOR, new CerasuTree(), new CerasuTree(false)),
     DELNAS(NO_COLOR, new DelnasTree(), new DelnasTree(false)),
-    EWCALY(NO_COLOR, new EwcalyTree(), new EwcalyTree(false), PotionHelper.sugarEffect),
+    EWCALY(NO_COLOR, new EwcalyTree(), new EwcalyTree(false)),//TODO PotionHelper.sugarEffect),
     HEKUR(BASIC_COLOR, new HekurTree(), new HekurTree(false)),
-    KIPARIS(NO_COLOR, new KiparisTree(), new KiparisTree(false), PotionHelper.spiderEyeEffect),
+    KIPARIS(NO_COLOR, new KiparisTree(), new KiparisTree(false)),//TODO PotionHelper.spiderEyeEffect),
     KULIST(KULIST_COLOR, new KulistTree(), new KulistTree(false)),
     LATA(BASIC_COLOR, new LataTree(), new LataTree(false)),
     NUCIS(BASIC_COLOR, new NucisTree(), new NucisTree(false)),

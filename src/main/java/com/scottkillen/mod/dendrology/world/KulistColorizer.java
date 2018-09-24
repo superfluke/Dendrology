@@ -1,20 +1,20 @@
 package com.scottkillen.mod.dendrology.world;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.io.IOException;
+
+import com.scottkillen.mod.dendrology.TheMod;
+
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.util.ResourceLocation;
-import java.io.IOException;
-
-import com.scottkillen.mod.dendrology.TheMod;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public enum KulistColorizer implements IResourceManagerReloadListener
 {
     INSTANCE;
-    @SuppressWarnings("StaticNonFinalField")
     private static int[] buffer = new int[256 * 256];
 
     public static int getInventoryColor()
@@ -34,7 +34,6 @@ public enum KulistColorizer implements IResourceManagerReloadListener
     {
         try
         {
-            //noinspection AssignmentToStaticFieldFromInstanceMethod
             buffer = TextureUtil.readImageData(resourceManager,
                     new ResourceLocation(TheMod.MOD_ID, "textures/colormap/kulist.png"));
         } catch (final IOException ignored)

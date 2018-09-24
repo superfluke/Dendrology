@@ -11,6 +11,6 @@ public abstract class SlabItem extends ItemSlab
     // SlabBlock in the second and third  parameters
     protected SlabItem(Block block, SlabBlock singleSlab, SlabBlock doubleSlab, Boolean isDouble)
     {
-        super(block, singleSlab, doubleSlab, isDouble);
+        super(block, singleSlab, doubleSlab);
     }
 }

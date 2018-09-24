@@ -2,12 +2,13 @@ package com.scottkillen.mod.dendrology.item;
 
 import com.scottkillen.mod.dendrology.TheMod;
 import com.scottkillen.mod.dendrology.config.Settings;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.GameRegistry.ObjectHolder;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
 @ObjectHolder(TheMod.MOD_ID)
 public final class ModItems

@@ -1,7 +1,9 @@
 package com.scottkillen.mod.dendrology.world;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.io.IOException;
+
+import com.scottkillen.mod.dendrology.TheMod;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
@@ -9,15 +11,13 @@ import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldInfo;
-import java.io.IOException;
-
-import com.scottkillen.mod.dendrology.TheMod;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public enum AcemusColorizer implements IResourceManagerReloadListener
 {
     INSTANCE;
-    @SuppressWarnings("StaticNonFinalField")
     private static int[] buffer = new int[256 * 256];
 
     public static int getInventoryColor()
@@ -28,13 +28,12 @@ public enum AcemusColorizer implements IResourceManagerReloadListener
     public static int getColor(int x, int y)
     {
         int day = 0;
-        final World world = Minecraft.getMinecraft().theWorld;
+        final World world = Minecraft.getMinecraft().world;
         if (world != null)
         {
             final WorldInfo info = world.getWorldInfo();
             if (info != null)
             {
-                //noinspection NumericCastThatLosesPrecision
                 day = (int) (info.getWorldTotalTime() / 24000L) & 0xff;
             }
         }
@@ -49,7 +48,6 @@ public enum AcemusColorizer implements IResourceManagerReloadListener
     {
         try
         {
-            //noinspection AssignmentToStaticFieldFromInstanceMethod
             buffer = TextureUtil.readImageData(resourceManager,
                     new ResourceLocation(TheMod.MOD_ID, "textures/colormap/acemus.png"));
         } catch (final IOException ignored)

@@ -39,7 +39,7 @@ public class WeightedSet<T>  implements Collection<T>
             count += elements.count(t);
             if (count >= pick) return t;
         }
-        //noinspection ReturnOfNull
+
         return null;
     }
 
