@@ -1,10 +1,8 @@
 package com.scottkillen.mod.dendrology;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Optional;
-import com.google.common.collect.Lists;
+import org.apache.logging.log4j.Logger;
+
 import com.scottkillen.mod.dendrology.block.ModBlocks;
-import com.scottkillen.mod.dendrology.config.Settings;
 import com.scottkillen.mod.dendrology.content.ParcelManager;
 import com.scottkillen.mod.dendrology.content.crafting.Crafter;
 import com.scottkillen.mod.dendrology.content.crafting.OreDictHandler;
@@ -13,24 +11,23 @@ import com.scottkillen.mod.dendrology.content.fuel.FuelHandler;
 import com.scottkillen.mod.dendrology.content.overworld.OverworldTreeGenerator;
 import com.scottkillen.mod.dendrology.content.overworld.OverworldTreeSpecies;
 import com.scottkillen.mod.dendrology.item.ModItems;
+import com.scottkillen.mod.dendrology.proxy.CommonProxy;
 import com.scottkillen.mod.dendrology.proxy.Proxy;
+
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.logging.log4j.Logger;
 
-import java.util.List;
-
-@Mod(modid = TheMod.MOD_ID, name = TheMod.MOD_NAME, version = TheMod.MOD_VERSION, useMetadata = true, guiFactory = TheMod.MOD_GUI_FACTORY)
+@Mod(modid = TheMod.MOD_ID, name = TheMod.MOD_NAME, version = TheMod.MOD_VERSION)
 public final class TheMod
 {
     public static final String MOD_ID = "dendrology";
@@ -41,6 +38,9 @@ public final class TheMod
 
     @Instance(MOD_ID)
     public static TheMod INSTANCE;
+    @SidedProxy(clientSide = "com.scottkillen.mod.dendrology.proxy.ClientProxy", serverSide = "com.scottkillen.mod.dendrology.proxy.CommonProxy")
+	public static CommonProxy proxy;
+    
     private final CreativeTabs creativeTab = new CreativeTabs(MOD_ID.toLowerCase())
     {
         private final OverworldTreeSpecies ICON = OverworldTreeSpecies.PORFFOR;
@@ -74,7 +74,7 @@ public final class TheMod
 //                new ConfigEventHandler(MOD_ID, event.getSuggestedConfigurationFile(), Settings.INSTANCE,
 //                        Settings.CONFIG_VERSION));
 //        configEventHandler.get().activate();
-
+    	MinecraftForge.EVENT_BUS.register(new ModBlocks());
         new ModBlocks().loadContent();
         new ModItems().loadContent();
     }
@@ -91,7 +91,7 @@ public final class TheMod
     @EventHandler
     public void onFMLPostInitialization(FMLPostInitializationEvent event)
     {
-        Proxy.render.postInit();
+        proxy.postInit();
         FuelHandler.postInit();
         ParcelManager.INSTANCE.init();
 

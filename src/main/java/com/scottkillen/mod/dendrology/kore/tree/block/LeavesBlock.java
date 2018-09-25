@@ -49,49 +49,49 @@ public abstract class LeavesBlock extends BlockLeaves
 
     protected final List<DefinesLeaves> subBlocks() { return Collections.unmodifiableList(subBlocks); }
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public final int getRenderColor(int metadata) { return subBlocks.get(mask(metadata)).getLeavesInventoryColor(); }
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public final int getRenderColor(int metadata) { return subBlocks.get(mask(metadata)).getLeavesInventoryColor(); }
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public final int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z)
-    {
-        final int metadata = mask(blockAccess.getBlockMetadata(x, y, z));
-        return subBlocks.get(metadata).getLeavesColor(blockAccess, x, y, z);
-    }
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public final int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z)
+//    {
+//        final int metadata = mask(blockAccess.getBlockMetadata(x, y, z));
+//        return subBlocks.get(metadata).getLeavesColor(blockAccess, x, y, z);
+//    }
 
-    @Override
-    public final Item getItemDropped(int metadata, Random unused, int unused2)
-    {
-        return Item.getItemFromBlock(subBlocks.get(mask(metadata)).saplingDefinition().saplingBlock());
-    }
+//    @Override
+//    public final Item getItemDropped(int metadata, Random unused, int unused2)
+//    {
+//        return Item.getItemFromBlock(subBlocks.get(mask(metadata)).saplingDefinition().saplingBlock());
+//    }
 
-    @Override
-    public final int damageDropped(int metadata)
-    {
-        return subBlocks.get(mask(metadata)).saplingDefinition().saplingSubBlockIndex();
-    }
+//    @Override
+//    public final int damageDropped(int metadata)
+//    {
+//        return subBlocks.get(mask(metadata)).saplingDefinition().saplingSubBlockIndex();
+//    }
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public final boolean isOpaqueCube() { return !isFancyGraphics(); }
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public final boolean isOpaqueCube() { return !isFancyGraphics(); }
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public final IIcon getIcon(int unused, int metadata)
-    {
-        return field_150129_M[isFancyGraphics() ? 0 : 1][mask(metadata)];
-    }
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public final IIcon getIcon(int unused, int metadata)
+//    {
+//        return field_150129_M[isFancyGraphics() ? 0 : 1][mask(metadata)];
+//    }
 
-    @Override
-    public final String[] func_150125_e()
-    {
-        final List<String> names = Lists.newArrayList();
-        for (final DefinesLeaves subBlock : subBlocks)
-            names.add(subBlock.speciesName());
-        return names.toArray(new String[names.size()]);
-    }
+//    @Override
+//    public final String[] func_150125_e()
+//    { //TODO owo
+//        final List<String> names = Lists.newArrayList();
+//        for (final DefinesLeaves subBlock : subBlocks)
+//            names.add(subBlock.speciesName());
+//        return names.toArray(new String[names.size()]);
+//    }
 
     @Override
     public final String getUnlocalizedName()
@@ -99,45 +99,43 @@ public abstract class LeavesBlock extends BlockLeaves
         return String.format("tile.%s%s", resourcePrefix(), getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
     }
 
-    @Override
-    public final int getDamageValue(World world, int x, int y, int z) { return world.getBlockMetadata(x, y, z) & 3; }
+//    @Override
+//    public final int getDamageValue(World world, int x, int y, int z) { return world.getBlockMetadata(x, y, z) & 3; }
 
-    @SuppressWarnings("unchecked")
-    @SideOnly(Side.CLIENT)
-    @Override
-    public final void getSubBlocks(Item item, CreativeTabs unused, List subBlocks)
-    {
-        for (int i = 0; i < this.subBlocks.size(); i++)
-            //noinspection ObjectAllocationInLoop
-            subBlocks.add(new ItemStack(item, 1, i));
-    }
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public final void getSubBlocks(Item item, CreativeTabs unused, List subBlocks)
+//    {
+//        for (int i = 0; i < this.subBlocks.size(); i++)
+//            subBlocks.add(new ItemStack(item, 1, i));
+//    }
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public final void registerBlockIcons(IIconRegister iconRegister)
-    {
-        field_150129_M[0] = new IIcon[subBlocks.size()];
-        field_150129_M[1] = new IIcon[subBlocks.size()];
-
-        for (int i = 0; i < subBlocks.size(); i++)
-        {
-            final String iconName =
-                    String.format("%sleaves_%s", resourcePrefix(), subBlocks.get(i).speciesName().replace('.', '_'));
-            field_150129_M[0][i] = iconRegister.registerIcon(iconName);
-            field_150129_M[1][i] = iconRegister.registerIcon(iconName + "_opaque");
-        }
-    }
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public final void registerBlockIcons(IIconRegister iconRegister)
+//    {
+//        field_150129_M[0] = new IIcon[subBlocks.size()];
+//        field_150129_M[1] = new IIcon[subBlocks.size()];
+//
+//        for (int i = 0; i < subBlocks.size(); i++)
+//        {
+//            final String iconName =
+//                    String.format("%sleaves_%s", resourcePrefix(), subBlocks.get(i).speciesName().replace('.', '_'));
+//            field_150129_M[0][i] = iconRegister.registerIcon(iconName);
+//            field_150129_M[1][i] = iconRegister.registerIcon(iconName + "_opaque");
+//        }
+//    }
 
     protected abstract String resourcePrefix();
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public final boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side)
-    {
-        final Block block = blockAccess.getBlock(x, y, z);
-        return !(!isFancyGraphics() && block.equals(this)) &&
-                (side == 0 && minY > 0.0D || side == 1 && maxY < 1.0D || side == 2 && minZ > 0.0D ||
-                        side == 3 && maxZ < 1.0D || side == 4 && minX > 0.0D || side == 5 && maxX < 1.0D ||
-                        !blockAccess.getBlock(x, y, z).isOpaqueCube());
-    }
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public final boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side)
+//    {
+//        final Block block = blockAccess.getBlock(x, y, z);
+//        return !(!isFancyGraphics() && block.equals(this)) &&
+//                (side == 0 && minY > 0.0D || side == 1 && maxY < 1.0D || side == 2 && minZ > 0.0D ||
+//                        side == 3 && maxZ < 1.0D || side == 4 && minX > 0.0D || side == 5 && maxX < 1.0D ||
+//                        !blockAccess.getBlock(x, y, z).isOpaqueCube());
+//    }
 }

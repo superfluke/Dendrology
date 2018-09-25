@@ -31,7 +31,7 @@ public class OverworldTreeGenerator implements IWorldGenerator
 			IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) 
     {
         final Settings settings = Settings.INSTANCE;
-        if (settings.isOverworldTreeGenEnabled())
+        if (settings.MAX_OVERWORLD_TREE_GEN_RARITY != 0)
         {
             final int x = (chunkX << 4) + 8 + random.nextInt(16);
             final int z = (chunkZ << 4) + 8 + random.nextInt(16);
@@ -40,7 +40,7 @@ public class OverworldTreeGenerator implements IWorldGenerator
             final List<Type> biomeTypes = ImmutableList.copyOf(BiomeDictionary.getTypes(biome));
 
             if (!(biomeTypes.contains(Type.NETHER) || biomeTypes.contains(Type.END)))
-                if (random.nextInt(settings.overworldTreeGenRarity()) == 0)
+                if (random.nextInt(settings.overworldTreeGenRarity) == 0)
                 {
                     final OverworldTreeSpecies species =
                             OverworldTreeSpecies.values()[random.nextInt(OverworldTreeSpecies.values().length)];

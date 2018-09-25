@@ -28,7 +28,7 @@ public final class ModLeavesBlock extends LeavesBlock
     @Override
     public int quantityDropped(Random random)
     {
-        final int rarity = Settings.INSTANCE.saplingDropRarity();
+        final int rarity = Settings.saplingDropRarity;
         return rarity == 0 || random.nextInt(rarity) != 0 ? 0 : 1;
     }
 

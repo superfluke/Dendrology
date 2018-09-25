@@ -52,29 +52,29 @@ public abstract class LogBlock extends BlockLog
         return String.format("tile.%s%s", resourcePrefix(), getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
     }
 
-    @SuppressWarnings("unchecked")
-    @SideOnly(Side.CLIENT)
-    @Override
-    public final void getSubBlocks(Item item, CreativeTabs unused, List subblocks)
-    {
-        for (int i = 0; i < subBlocks.size(); i++)
-            subblocks.add(new ItemStack(item, 1, i));
-    }
+//    @SuppressWarnings("unchecked")
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public final void getSubBlocks(Item item, CreativeTabs unused, List subblocks)
+//    {
+//        for (int i = 0; i < subBlocks.size(); i++)
+//            subblocks.add(new ItemStack(item, 1, i));
+//    }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public final void registerBlockIcons(IIconRegister iconRegister)
-    {
-        field_150167_a = new IIcon[subBlocks.size()];
-        field_150166_b = new IIcon[subBlocks.size()];
-
-        for (int i = 0; i < subBlocks.size(); i++)
-        {
-            final String iconName = String.format("%slog_%s", resourcePrefix(), subBlocks.get(i).speciesName());
-            field_150167_a[i] = iconRegister.registerIcon(iconName);
-            field_150166_b[i] = iconRegister.registerIcon(iconName + "_top");
-        }
-    }
+//    @Override
+//    @SideOnly(Side.CLIENT)
+//    public final void registerBlockIcons(IIconRegister iconRegister)
+//    {
+//        field_150167_a = new IIcon[subBlocks.size()];
+//        field_150166_b = new IIcon[subBlocks.size()];
+//
+//        for (int i = 0; i < subBlocks.size(); i++)
+//        {
+//            final String iconName = String.format("%slog_%s", resourcePrefix(), subBlocks.get(i).speciesName());
+//            field_150167_a[i] = iconRegister.registerIcon(iconName);
+//            field_150166_b[i] = iconRegister.registerIcon(iconName + "_top");
+//        }
+//    }
 
     protected abstract String resourcePrefix();
 }

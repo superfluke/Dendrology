@@ -20,8 +20,8 @@ public final class ModItems
 
     private static void addParcelToChests()
     {
-        for (final String chestType : Settings.chestTypes())
-            addParcelToChest(chestType);
+//        for (final String chestType : Settings.chestTypes())
+//            addParcelToChest(chestType);
     }
 
     private static void addParcelToChest(String chestType) //TODO loottables

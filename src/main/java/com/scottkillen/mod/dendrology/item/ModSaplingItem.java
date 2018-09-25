@@ -17,15 +17,9 @@ public final class ModSaplingItem extends SaplingItem
         this.sapling = sapling;
     }
 
-    @Override
-    public String getPotionEffect(ItemStack itemStack)
-    {
-        return sapling.getPotionEffect(itemStack);
-    }
-
-    @Override
-    public String toString()
-    {
-        return Objects.toStringHelper(this).add("sapling", sapling).toString();
-    }
+//    @Override //TODO
+//    public String getPotionEffect(ItemStack itemStack)
+//    {
+//        return sapling.getPotionEffect(itemStack);
+//    }
 }

@@ -126,7 +126,8 @@ public enum OverworldTreeSpecies
             case KULIST_COLOR:
                 return KulistColorizer.getInventoryColor();
             default:
-                return Blocks.LEAVES.getRenderColor(0);
+            	return 0xffffff;
+                //return Blocks.LEAVES.getRenderColor(0);
         }
     }
 
@@ -145,7 +146,8 @@ public enum OverworldTreeSpecies
             case KULIST_COLOR:
                 return KulistColorizer.getColor(x, y, z);
             default:
-                return Blocks.LEAVES.colorMultiplier(blockAccess, x, y, z);
+            	return 0xffffff;
+                //return Blocks.LEAVES.colorMultiplier(blockAccess, x, y, z);
         }
     }
 
@@ -169,7 +171,6 @@ public enum OverworldTreeSpecies
     @Override
     public int leavesSubBlockIndex() { return leavesMeta; }
 
-    @SuppressWarnings("ReturnOfThis")
     @Override
     public DefinesSapling saplingDefinition() { return this; }
 

@@ -5,13 +5,8 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.scottkillen.mod.dendrology.TheMod;
-import com.scottkillen.mod.dendrology.config.Settings;
 import com.scottkillen.mod.dendrology.content.overworld.OverworldTreeBlockFactory;
 import com.scottkillen.mod.dendrology.content.overworld.OverworldTreeTaxonomy;
-import com.scottkillen.mod.dendrology.item.ModLogItem;
-import com.scottkillen.mod.dendrology.item.ModSaplingItem;
-import com.scottkillen.mod.dendrology.item.ModSlabItem;
-import com.scottkillen.mod.dendrology.item.ModWoodItem;
 import com.scottkillen.mod.dendrology.kore.common.block.SlabBlock;
 import com.scottkillen.mod.dendrology.kore.common.block.StairsBlock;
 import com.scottkillen.mod.dendrology.kore.tree.DefinesLog;
@@ -22,7 +17,6 @@ import com.scottkillen.mod.dendrology.kore.tree.block.LeavesBlock;
 import com.scottkillen.mod.dendrology.kore.tree.block.LogBlock;
 import com.scottkillen.mod.dendrology.kore.tree.block.SaplingBlock;
 import com.scottkillen.mod.dendrology.kore.tree.block.WoodBlock;
-import com.scottkillen.mod.dendrology.kore.tree.item.LeavesItem;
 import com.scottkillen.mod.dendrology.kore.tree.loader.TreeSpeciesLoader;
 
 import net.minecraft.block.Block;
@@ -30,15 +24,12 @@ import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 
-@Mod.EventBusSubscriber
+
 public final class ModBlocks
 {
     private static final int DEFAULT_LEAVES_FIRE_ENCOURAGEMENT = 30;
@@ -60,12 +51,12 @@ public final class ModBlocks
 
     private static void addAllSaplingsToChests()
     {
-        TheMod.logger.info("Hiding saplings in chests.");
-        final Settings settings = Settings.INSTANCE;
-
-        for (final DefinesSapling saplingDefinition : overworldTaxonomy.saplingDefinitions())
-            for (final String chestType : Settings.chestTypes())
-                addSaplingToChest(saplingDefinition, chestType, settings.chestRarity(chestType));
+//        TheMod.logger.info("Hiding saplings in chests.");
+//        final Settings settings = Settings.INSTANCE;
+//
+//        for (final DefinesSapling saplingDefinition : overworldTaxonomy.saplingDefinitions())
+//            for (final String chestType : Settings.chestTypes())
+//                addSaplingToChest(saplingDefinition, chestType, settings.chestRarity(chestType));
     }
 
     private static void addSaplingToChest(DefinesSapling saplingDefinition, String chestType, int rarity)

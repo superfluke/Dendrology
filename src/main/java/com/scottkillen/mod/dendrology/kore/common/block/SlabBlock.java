@@ -49,18 +49,18 @@ public abstract class SlabBlock extends BlockSlab
         return unlocalizedName.substring(unlocalizedName.indexOf('.') + 1);
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public final IIcon getIcon(int side, int metadata)
-    {
-        int index = mask(metadata);
-        if (index < 0 || index >= subBlocks.size()) index = 0;
-
-        final DefinesSlab subBlock = subBlocks.get(index);
-        final Block modelBlock = subBlock.slabModelBlock();
-        final int modelBlockMetadata = subBlock.slabModelSubBlockIndex();
-        return modelBlock.getIcon(side, modelBlockMetadata);
-    }
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public final IIcon getIcon(int side, int metadata)
+//    {
+//        int index = mask(metadata);
+//        if (index < 0 || index >= subBlocks.size()) index = 0;
+//
+//        final DefinesSlab subBlock = subBlocks.get(index);
+//        final Block modelBlock = subBlock.slabModelBlock();
+//        final int modelBlockMetadata = subBlock.slabModelSubBlockIndex();
+//        return modelBlock.getIcon(side, modelBlockMetadata);
+//    }
 
 //    @Override
 //    public final Item getItemDropped(int metadata, Random unused, int unused2)
@@ -103,9 +103,9 @@ public abstract class SlabBlock extends BlockSlab
 //        }
 //    }
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public final void registerBlockIcons(IIconRegister unused) {}
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public final void registerBlockIcons(IIconRegister unused) {}
 
 //    @Override
 //    public final String func_150002_b(int metadata)

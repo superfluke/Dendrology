@@ -1,16 +1,15 @@
 package com.scottkillen.mod.dendrology.content.crafting;
 
+import static net.minecraftforge.oredict.OreDictionary.WILDCARD_VALUE;
+
 import com.scottkillen.mod.dendrology.block.ModBlocks;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-import static net.minecraftforge.oredict.OreDictionary.WILDCARD_VALUE;
-
-@SuppressWarnings("MethodMayBeStatic")
 public final class OreDictHandler
 {
-    @SuppressWarnings("MethodWithMultipleLoops")
     public void registerBlocksWithOreDictinary()
     {
         for (final Block block : ModBlocks.logBlocks())

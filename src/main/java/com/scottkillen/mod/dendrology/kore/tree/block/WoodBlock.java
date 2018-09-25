@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,10 +21,11 @@ public abstract class WoodBlock extends Block
 {
     public static final int CAPACITY = 16;
     private final ImmutableList<DefinesWood> subBlocks;
-    private final List<IIcon> icons = Lists.newArrayList();
+    //private final List<IIcon> icons = Lists.newArrayList();
 
     protected WoodBlock(Collection<? extends DefinesWood> subBlocks)
     {
+    	super(Material.WOOD);
         Preconditions.checkArgument(!subBlocks.isEmpty());
         Preconditions.checkArgument(subBlocks.size() <= CAPACITY);
         this.subBlocks = ImmutableList.copyOf(subBlocks);
@@ -51,35 +53,35 @@ public abstract class WoodBlock extends Block
         return String.format("tile.%s%s", resourcePrefix(), getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public final IIcon getIcon(int unused, int meta)
-    {
-        final int meta1 = meta < 0 || meta >= icons.size() ? 0 : meta;
-        return icons.get(meta1);
-    }
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public final IIcon getIcon(int unused, int meta)
+//    {
+//        final int meta1 = meta < 0 || meta >= icons.size() ? 0 : meta;
+//        return icons.get(meta1);
+//    }
 
-    @SuppressWarnings("unchecked")
-    @SideOnly(Side.CLIENT)
-    @Override
-    public final void getSubBlocks(Item item, CreativeTabs unused, List subblocks)
-    {
-        for (int i = 0; i < subBlocks.size(); i++)
-            subblocks.add(new ItemStack(item, 1, i));
-    }
+//    @SuppressWarnings("unchecked")
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public final void getSubBlocks(Item item, CreativeTabs unused, List subblocks)
+//    {
+//        for (int i = 0; i < subBlocks.size(); i++)
+//            subblocks.add(new ItemStack(item, 1, i));
+//    }
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public final void registerBlockIcons(IIconRegister iconRegister)
-    {
-        icons.clear();
-
-        for (int i = 0; i < subBlocks.size(); i++)
-        {
-            final String iconName = String.format("%splanks_%s", resourcePrefix(), subBlocks.get(i).speciesName());
-            icons.add(i, iconRegister.registerIcon(iconName));
-        }
-    }
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public final void registerBlockIcons(IIconRegister iconRegister)
+//    {
+//        icons.clear();
+//
+//        for (int i = 0; i < subBlocks.size(); i++)
+//        {
+//            final String iconName = String.format("%splanks_%s", resourcePrefix(), subBlocks.get(i).speciesName());
+//            icons.add(i, iconRegister.registerIcon(iconName));
+//        }
+//    }
 
     protected abstract String resourcePrefix();
 }

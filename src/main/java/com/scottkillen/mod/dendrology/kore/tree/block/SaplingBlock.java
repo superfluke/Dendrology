@@ -27,7 +27,7 @@ public abstract class SaplingBlock extends BlockSapling
     public static final int CAPACITY = 8;
     private static final int METADATA_MASK = CAPACITY - 1;
     private final ImmutableList<DefinesSapling> subBlocks;
-    private final List<IIcon> subblockIcons;
+    //private final List<IIcon> subblockIcons;
 
     protected SaplingBlock(Collection<? extends DefinesSapling> subBlocks)
     {
@@ -35,7 +35,7 @@ public abstract class SaplingBlock extends BlockSapling
         checkArgument(subBlocks.size() <= CAPACITY);
         this.subBlocks = ImmutableList.copyOf(subBlocks);
 
-        subblockIcons = Lists.newArrayListWithCapacity(subBlocks.size());
+        //subblockIcons = Lists.newArrayListWithCapacity(subBlocks.size());
 
         //setBlockName("sapling");
     }
@@ -57,52 +57,52 @@ public abstract class SaplingBlock extends BlockSapling
         return ImmutableList.copyOf(names);
     }
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public final IIcon getIcon(int unused, int metadata)
-    {
-        int index = mask(metadata);
-        if (index < 0 || index >= subblockIcons.size()) index = 0;
-        return subblockIcons.get(index);
-    }
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public final IIcon getIcon(int unused, int metadata)
+//    {
+//        int index = mask(metadata);
+//        if (index < 0 || index >= subblockIcons.size()) index = 0;
+//        return subblockIcons.get(index);
+//    }
 
-    @Override
-    public final void func_149878_d(World world, int x, int y, int z, Random rand)
-    {
-        if (!TerrainGen.saplingGrowTree(world, rand, x, y, z)) return;
+//    @Override
+//    public final void func_149878_d(World world, int x, int y, int z, Random rand)
+//    { //TODO grow() override?
+//        if (!TerrainGen.saplingGrowTree(world, rand, x, y, z)) return;
+//
+//        final int metadata = mask(world.getBlockMetadata(x, y, z));
+//        final WorldGenerator treeGen = subBlocks.get(metadata).saplingTreeGenerator();
+//        world.setBlock(x, y, z, Blocks.air, 0, 4);
+//        if (!treeGen.generate(world, rand, x, y, z)) world.setBlock(x, y, z, this, metadata, 4);
+//    }
 
-        final int metadata = mask(world.getBlockMetadata(x, y, z));
-        final WorldGenerator treeGen = subBlocks.get(metadata).saplingTreeGenerator();
-        world.setBlock(x, y, z, Blocks.air, 0, 4);
-        if (!treeGen.generate(world, rand, x, y, z)) world.setBlock(x, y, z, this, metadata, 4);
-    }
+//    @Override
+//    public final int damageDropped(int metadata)
+//    {
+//        return mask(metadata);
+//    }
 
-    @Override
-    public final int damageDropped(int metadata)
-    {
-        return mask(metadata);
-    }
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public final void getSubBlocks(Item item, CreativeTabs unused, List subBlocks)
+//    {
+//        for (int i = 0; i < this.subBlocks.size(); i++)
+//            //noinspection ObjectAllocationInLoop
+//            subBlocks.add(new ItemStack(item, 1, i));
+//    }
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public final void getSubBlocks(Item item, CreativeTabs unused, List subBlocks)
-    {
-        for (int i = 0; i < this.subBlocks.size(); i++)
-            //noinspection ObjectAllocationInLoop
-            subBlocks.add(new ItemStack(item, 1, i));
-    }
-
-    @Override
-    public final void registerBlockIcons(IIconRegister iconRegister)
-    {
-        subblockIcons.clear();
-
-        for (int i = 0; i < subBlocks.size(); i++)
-        {
-            final String iconName = String.format("%ssapling_%s", resourcePrefix(), subBlocks.get(i).speciesName());
-            subblockIcons.add(i, iconRegister.registerIcon(iconName));
-        }
-    }
+//    @Override
+//    public final void registerBlockIcons(IIconRegister iconRegister)
+//    {
+//        subblockIcons.clear();
+//
+//        for (int i = 0; i < subBlocks.size(); i++)
+//        {
+//            final String iconName = String.format("%ssapling_%s", resourcePrefix(), subBlocks.get(i).speciesName());
+//            subblockIcons.add(i, iconRegister.registerIcon(iconName));
+//        }
+//    }
 
     @Override
     public final String getUnlocalizedName()
