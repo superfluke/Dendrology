@@ -4,17 +4,17 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import com.scottkillen.mod.dendrology.kore.tree.DefinesWood;
-
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesWood;
 
 public abstract class WoodBlock extends Block
 {
@@ -27,7 +27,7 @@ public abstract class WoodBlock extends Block
         Preconditions.checkArgument(!subBlocks.isEmpty());
         Preconditions.checkArgument(subBlocks.size() <= CAPACITY);
         this.subBlocks = ImmutableList.copyOf(subBlocks);
-        setBlockName("wood");
+        //setBlockName("wood");
     }
 
     protected static String getUnwrappedUnlocalizedName(String unlocalizedName)

@@ -34,7 +34,7 @@ public abstract class LeavesBlock extends BlockLeaves
         checkArgument(!subBlocks.isEmpty());
         checkArgument(subBlocks.size() <= CAPACITY);
         this.subBlocks = ImmutableList.copyOf(subBlocks);
-        setBlockName("leaves");
+        //setBlockName("leaves");
     }
 
     private static int mask(int metadata) {return metadata & METADATA_MASK;}
@@ -130,7 +130,6 @@ public abstract class LeavesBlock extends BlockLeaves
 
     protected abstract String resourcePrefix();
 
-    @SuppressWarnings("OverlyComplexBooleanExpression")
     @SideOnly(Side.CLIENT)
     @Override
     public final boolean shouldSideBeRendered(IBlockAccess blockAccess, int x, int y, int z, int side)
@@ -140,11 +139,5 @@ public abstract class LeavesBlock extends BlockLeaves
                 (side == 0 && minY > 0.0D || side == 1 && maxY < 1.0D || side == 2 && minZ > 0.0D ||
                         side == 3 && maxZ < 1.0D || side == 4 && minX > 0.0D || side == 5 && maxX < 1.0D ||
                         !blockAccess.getBlock(x, y, z).isOpaqueCube());
-    }
-
-    @Override
-    public String toString()
-    {
-        return Objects.toStringHelper(this).add("subBlocks", subBlocks).toString();
     }
 }

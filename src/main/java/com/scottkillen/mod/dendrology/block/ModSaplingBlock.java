@@ -17,7 +17,7 @@ public final class ModSaplingBlock extends SaplingBlock
         super(ImmutableList.copyOf(subBlocks));
         setCreativeTab(TheMod.INSTANCE.creativeTab());
         setHardness(0.0F);
-        setStepSound(soundTypeGrass);
+        //setStepSound(soundTypeGrass); //TODO
     }
 
     @Override

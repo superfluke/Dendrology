@@ -69,15 +69,15 @@ public final class ModBlocks
     }
 
     private static void addSaplingToChest(DefinesSapling saplingDefinition, String chestType, int rarity)
-    {
-        if (rarity <= 0) return;
-
-        final ItemStack sapling =
-                new ItemStack(saplingDefinition.saplingBlock(), 1, saplingDefinition.saplingSubBlockIndex());
-        final WeightedRandomChestContent chestContent = new WeightedRandomChestContent(sapling, 1, 2, rarity);
-
-        final ChestGenHooks chestGenInfo = ChestGenHooks.getInfo(chestType);
-        chestGenInfo.addItem(chestContent);
+    {//TODO
+//        if (rarity <= 0) return;
+//
+//        final ItemStack sapling =
+//                new ItemStack(saplingDefinition.saplingBlock(), 1, saplingDefinition.saplingSubBlockIndex());
+//        final WeightedRandomChestContent chestContent = new WeightedRandomChestContent(sapling, 1, 2, rarity);
+//
+//        final ChestGenHooks chestGenInfo = ChestGenHooks.getInfo(chestType);
+//        chestGenInfo.addItem(chestContent);
     }
 
     public static Iterable<? extends BlockLeaves> leavesBlocks() { return ImmutableList.copyOf(leavesBlocks); }

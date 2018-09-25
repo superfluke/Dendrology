@@ -1,9 +1,11 @@
 package com.scottkillen.mod.dendrology.kore.tree.block;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import com.scottkillen.mod.dendrology.kore.tree.DefinesSapling;
+import static com.google.common.base.Preconditions.checkArgument;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.BlockSapling;
 import net.minecraft.creativetab.CreativeTabs;
@@ -16,12 +18,9 @@ import net.minecraftforge.event.terraingen.TerrainGen;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
-import static com.google.common.base.Preconditions.*;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.scottkillen.mod.dendrology.kore.tree.DefinesSapling;
 
 public abstract class SaplingBlock extends BlockSapling
 {
@@ -38,7 +37,7 @@ public abstract class SaplingBlock extends BlockSapling
 
         subblockIcons = Lists.newArrayListWithCapacity(subBlocks.size());
 
-        setBlockName("sapling");
+        //setBlockName("sapling");
     }
 
     protected static String getUnwrappedUnlocalizedName(String unlocalizedName)

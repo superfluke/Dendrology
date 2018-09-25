@@ -2,21 +2,17 @@ package com.scottkillen.mod.dendrology.kore.common.block;
 
 import net.minecraft.block.BlockStairs;
 
+import com.scottkillen.mod.dendrology.kore.tree.DefinesStairs;
+
 public abstract class StairsBlock extends BlockStairs
 {
     protected StairsBlock(DefinesStairs model)
     {
-        super(model.stairsModelBlock(), model.stairsModelSubBlockIndex());
+        super(model.stairsModelBlock().getStateFromMeta(model.stairsModelSubBlockIndex()));
     }
 
-    @Override
-    public boolean getUseNeighborBrightness()
-    {
-        // Fix lighting bugs
-        return true;
-    }
 
-    @SuppressWarnings("WeakerAccess")
+
     protected static String getUnwrappedUnlocalizedName(String unlocalizedName)
     {
         return unlocalizedName.substring(unlocalizedName.indexOf('.') + 1);
@@ -25,7 +21,6 @@ public abstract class StairsBlock extends BlockStairs
     @Override
     public final String getUnlocalizedName()
     {
-        //noinspection StringConcatenationMissingWhitespace
         return "tile." + resourcePrefix() + getUnwrappedUnlocalizedName(super.getUnlocalizedName());
     }
 

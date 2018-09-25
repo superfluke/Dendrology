@@ -5,6 +5,7 @@ import com.scottkillen.mod.dendrology.content.ParcelManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -13,6 +14,8 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 public class SaplingParcel extends Item
 {
@@ -23,9 +26,9 @@ public class SaplingParcel extends Item
     }
 
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer player, List information, boolean unused)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-        //noinspection unchecked
+        //(ItemStack itemStack, EntityPlayer player, List information, boolean unused)
         information.add(StatCollector.translateToLocal(String.format("%s%s", TheMod.getResourcePrefix(), "parcel.tooltip")));
     }
 

@@ -5,8 +5,8 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@SuppressWarnings("MethodMayBeStatic")
 public class Smelter
 {
     public void registerSmeltings()
@@ -19,6 +19,6 @@ public class Smelter
 
     private static void registerCharcoalSmelting(Block log)
     {
-        FurnaceRecipes.smelting().func_151393_a(log, new ItemStack(Items.coal, 1, 1), 0.15F);
+    	GameRegistry.addSmelting(log, new ItemStack(Items.COAL, 1, 1), 0.15F);
     }
 }

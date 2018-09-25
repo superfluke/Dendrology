@@ -1,8 +1,9 @@
 package com.scottkillen.mod.dendrology.item;
 
-import com.scottkillen.mod.dendrology.block.ModSlabBlock;
-import com.scottkillen.mod.koresample.tree.item.SlabItem;
 import net.minecraft.block.Block;
+
+import com.scottkillen.mod.dendrology.block.ModSlabBlock;
+import com.scottkillen.mod.dendrology.kore.tree.item.SlabItem;
 
 public final class ModSlabItem extends SlabItem
 {

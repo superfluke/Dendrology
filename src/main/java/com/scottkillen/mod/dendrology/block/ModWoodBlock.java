@@ -15,7 +15,7 @@ public final class ModWoodBlock extends WoodBlock
 
         setHardness(2.0f);
         setResistance(5.0f);
-        setStepSound(soundTypeWood);
+        //setStepSound(soundTypeWood); //TODO
     }
 
     @Override
