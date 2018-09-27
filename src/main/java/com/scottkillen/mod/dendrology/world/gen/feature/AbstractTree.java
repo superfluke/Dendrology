@@ -2,7 +2,11 @@ package com.scottkillen.mod.dendrology.world.gen.feature;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockOldLeaf;
+import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -21,6 +25,8 @@ import com.scottkillen.mod.dendrology.kore.tree.block.SaplingBlock;
 
 public abstract class AbstractTree extends WorldGenAbstractTree
 {
+    private static final IBlockState DEFAULT_LEAF = Blocks.LEAVES.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.OAK).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+
     protected static final ImmutableList<ImmutablePair<Integer, Integer>> BRANCH_DIRECTIONS = ImmutableList
             .of(ImmutablePair.of(-1, 0), ImmutablePair.of(1, 0), ImmutablePair.of(0, -1), ImmutablePair.of(0, 1),
                     ImmutablePair.of(-1, 1), ImmutablePair.of(-1, -1), ImmutablePair.of(1, 1), ImmutablePair.of(1, -1));
@@ -72,7 +78,8 @@ public abstract class AbstractTree extends WorldGenAbstractTree
     {
     	IBlockState state = world.getBlockState(blockpos);
     	if (canGrowInto(state.getBlock()))
-            setBlockAndNotifyAdequately(world, blockpos, getLeavesBlock().getDefaultState());
+    		setBlockAndNotifyAdequately(world, blockpos, DEFAULT_LEAF); //TODO fix this to not freak out
+//            setBlockAndNotifyAdequately(world, blockpos, getLeavesBlock().getDefaultState());
     }
 
     protected void placeLog(World world, BlockPos blockpos)

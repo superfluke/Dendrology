@@ -74,7 +74,7 @@ public final class TheMod
 //                new ConfigEventHandler(MOD_ID, event.getSuggestedConfigurationFile(), Settings.INSTANCE,
 //                        Settings.CONFIG_VERSION));
 //        configEventHandler.get().activate();
-    	MinecraftForge.EVENT_BUS.register(new ModBlocks());
+//    	MinecraftForge.EVENT_BUS.register(new ModBlocks());
         new ModBlocks().loadContent();
         new ModItems().loadContent();
     }

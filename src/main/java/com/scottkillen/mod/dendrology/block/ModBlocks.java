@@ -29,7 +29,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
-
+@Mod.EventBusSubscriber
 public final class ModBlocks
 {
     private static final int DEFAULT_LEAVES_FIRE_ENCOURAGEMENT = 30;
@@ -85,7 +85,7 @@ public final class ModBlocks
     public static Iterable<? extends DefinesLog> logDefinitions() { return overworldTaxonomy.logDefinitions(); }
 
     @SubscribeEvent
-    private static void registerBlocks(RegistryEvent.Register<Block> event)
+    public static void registerBlocks(RegistryEvent.Register<Block> event)
     {
     	IForgeRegistry<Block> forgeRegistry = event.getRegistry();
         registerAllLogBlocks(forgeRegistry);
@@ -103,6 +103,7 @@ public final class ModBlocks
         for (final SlabBlock slab : doubleSlabBlocks)
         {
 //            registerSlabBlock(slab, String.format("dslab%d", slabCount), singleSlabBlocks.get(slabCount), slab, true);
+        	slab.setRegistryName("dslab" + slabCount);
         	forgeRegistry.register(slab);
             slabCount++;
         }
@@ -114,6 +115,7 @@ public final class ModBlocks
         for (final Block block : leavesBlocks)
         {
             //registerLeavesBlock(block, String.format("leaves%d", leavesCount));
+        	block.setRegistryName("leaves"+leavesCount);
         	forgeRegistry.register(block);
         	Blocks.FIRE.setFireInfo(block, DEFAULT_LEAVES_FIRE_ENCOURAGEMENT, DEFAULT_LEAVES_FLAMMABILITY);
             leavesCount++;
@@ -126,6 +128,7 @@ public final class ModBlocks
         for (final LogBlock block : logBlocks)
         {
             //registerLogBlock(block, String.format("logs%d", logCount), block.getSubBlockNames());
+        	block.setRegistryName("logs" + logCount);
             forgeRegistry.register(block);
             Blocks.FIRE.setFireInfo(block, DEFAULT_LOG_FIRE_ENCOURAGEMENT, DEFAULT_LOG_FLAMMABILITY);
             logCount++;
@@ -139,6 +142,7 @@ public final class ModBlocks
         for (final SaplingBlock sapling : saplingBlocks)
         {
 //            registerSaplingBlock(sapling, String.format("sapling%d", saplingCount), sapling.subBlockNames());
+        	sapling.setRegistryName("sapling" + saplingCount);
         	forgeRegistry.register(sapling);
             saplingCount++;
         }
@@ -150,6 +154,7 @@ public final class ModBlocks
         for (final SlabBlock slab : singleSlabBlocks)
         {
 //            registerSlabBlock(slab, String.format("sslab%d", slabCount), slab, doubleSlabBlocks.get(slabCount), false);
+        	slab.setRegistryName("sslab" + slabCount);
         	forgeRegistry.register(slab);
             slabCount++;
         }
@@ -161,7 +166,8 @@ public final class ModBlocks
         for (final StairsBlock stairs : stairsBlocks)
         {
             //registerStairsBlock(stairs, String.format("stairs%d", stairsCount));
-            forgeRegistry.register(stairs);
+            stairs.setRegistryName("stairs" + stairsCount);
+        	forgeRegistry.register(stairs);
             Blocks.FIRE.setFireInfo(stairs, DEFAULT_STAIRS_FIRE_ENCOURAGEMENT, DEFAULT_STAIRS_FLAMMABILITY);
             stairsCount++;
         }
@@ -173,7 +179,8 @@ public final class ModBlocks
         for (final WoodBlock wood : woodBlocks)
         {
             //registerWoodBlock(wood, String.format("wood%d", woodBlockCount), wood.getSubBlockNames());
-            forgeRegistry.register(wood);
+            wood.setRegistryName("wood" + woodBlockCount);
+        	forgeRegistry.register(wood);
             Blocks.FIRE.setFireInfo(wood, DEFAULT_PLANKS_FIRE_ENCOURAGEMENT, DEFAULT_PLANKS_FLAMMABILITY);
             woodBlockCount++;
         }
